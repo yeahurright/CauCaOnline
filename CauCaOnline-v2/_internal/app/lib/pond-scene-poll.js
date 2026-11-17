@@ -1,0 +1,107 @@
+const maps = require('../public/js/pond-maps');
+const MAP_DURATION = 180_000;
+const MAP_BALLOT_DURATION = 30_000;
+const WEATHER_DURATION = 45_000;
+const choices = {
+  weather: [{ id: 'sun', label: 'Nắng' }, { id: 'rain', label: 'Mưa' }, { id: 'mist', label: 'Sương' }],
+  scenery: maps.map(({ id, vote }) => ({ id, label: vote }))
+};
+const commands = new Map(Object.values(choices).flat().map(({ id, label }) => [normalize(label), id]));
+for (const { id, name } of maps) commands.set(normalize(name), id);
+
+function normalize(text) {
+  return String(text || '').trim().toLowerCase().normalize('NFD').replace(/\p{M}/gu, '');
+}
+
+class PondScenePoll {
+  constructor({ now = Date.now, random = Math.random } = {}) {
+    this.now = now;
+    this.random = random;
+    this.scene = { weather: 'sun', scenery: maps[0].id };
+    this.votes = new Map();
+    this.reset();
+  }
+
+  reset(now = this.now()) {
+    this.mapEndsAt = now + MAP_DURATION;
+    this.openBallot('weather', now + WEATHER_DURATION);
+  }
+
+  openBallot(kind, endsAt) {
+    this.votes.clear();
+    this.kind = kind;
+    this.endsAt = endsAt;
+    this.changed = true;
+  }
+
+  handleChat(text, viewerId) {
+    const option = commands.get(normalize(text));
+    if (!option) return null;
+    this.advance(this.now());
+    const voter = String(viewerId || '').trim().toLowerCase();
+    if (!voter || !this.kind || this.votes.has(voter) || !choices[this.kind].some(({ id }) => id === option)) return false;
+    this.votes.set(voter, option);
+    this.changed = true;
+    return true;
+  }
+
+  options(kind = this.kind) {
+    const counts = new Map();
+    if (kind === this.kind) {
+      for (const option of this.votes.values()) counts.set(option, (counts.get(option) || 0) + 1);
+    }
+    return choices[kind].map(option => ({ ...option, count: counts.get(option.id) || 0 }));
+  }
+
+  selectMap(id) {
+    if (!maps.some(map => map.id === id)) return false;
+    if (this.scene.scenery !== id) {
+      this.scene.scenery = id;
+      this.reset();
+    }
+    return true;
+  }
+
+  applyWinner(kind) {
+    const options = this.options(kind);
+    const highest = Math.max(...options.map(({ count }) => count));
+    const candidates = options.filter(({ id, count }) => highest ? count === highest : id !== this.scene[kind]);
+    this.scene[kind] = candidates[Math.floor(this.random() * candidates.length)].id;
+  }
+
+  advance(now) {
+    if (now < this.endsAt) return;
+    if (this.kind === 'weather') this.applyWinner('weather');
+    if (now >= this.mapEndsAt) {
+      this.applyWinner('scenery');
+      this.reset(now);
+      return;
+    }
+    const mapVoteAt = this.mapEndsAt - MAP_BALLOT_DURATION;
+    if (now >= mapVoteAt) {
+      this.openBallot('scenery', this.mapEndsAt);
+      return;
+    }
+    const mapStart = this.mapEndsAt - MAP_DURATION;
+    const weatherEnd = mapStart + (Math.floor((now - mapStart) / WEATHER_DURATION) + 1) * WEATHER_DURATION;
+    this.openBallot(weatherEnd <= mapVoteAt ? 'weather' : null, Math.min(weatherEnd, mapVoteAt));
+  }
+
+  update() {
+    this.advance(this.now());
+    const changed = this.changed;
+    this.changed = false;
+    return changed;
+  }
+
+  snapshot(live) {
+    return {
+      ...this.scene,
+      mapEndsAt: live ? this.mapEndsAt : null,
+      poll: live && this.kind ? { kind: this.kind, endsAt: this.endsAt, options: this.options() } : null,
+      serverNow: this.now()
+    };
+  }
+}
+
+module.exports = { PondScenePoll };

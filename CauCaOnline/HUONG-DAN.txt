@@ -1,0 +1,273 @@
+HỒ CÂU CÁ ONLINE — HƯỚNG DẪN SỬ DỤNG CHI TIẾT
+Phiên bản hướng dẫn: 03/11/2026
+
+1. GIẢI NÉN VÀ KHỞI ĐỘNG
+-------------------------
+- Giải nén toàn bộ CauCaOnline-Windows-Portable.zip trước khi chạy.
+- Mở CauCaOnline.exe trong thư mục CauCaOnline vừa giải nén.
+- Luôn giữ file exe cùng thư mục _internal. Không chép riêng exe sang máy khác.
+- Bản portable có Node.js và bộ 25 giọng đọc offline; không cần cài Python/Node.
+- Đặt thư mục ở nơi có quyền ghi để ứng dụng lưu cấu hình và âm thanh đã tạo.
+- Máy chủ mặc định chạy tại http://localhost:3001. Nếu cổng bận, có thể chuyển
+  sang cổng khác; xem địa chỉ thực tế trong cửa sổ điều khiển/nhật ký.
+- Chờ bộ giọng đọc tải xong trước khi kiểm tra âm thanh.
+
+Các nút trong cửa sổ phần mềm:
+  Mở màn hình Live: mở hồ câu và bảng điều khiển bên cạnh.
+  Mở quản trị: mở trang điều khiển đầy đủ.
+  Thư viện giọng: chọn, nghe thử và điều chỉnh giọng đọc.
+  Khởi động / Dừng máy chủ: bật hoặc dừng máy chủ trò chơi.
+  Mở nhật ký: xem thông tin chạy và lỗi kết nối/giọng đọc.
+
+2. KẾT NỐI TIKTOK LIVE
+----------------------
+1) Tài khoản TikTok phải đang phát Live.
+2) Trong màn hình Live hoặc Admin, nhập @username hoặc link TikTok Live.
+3) Bấm Kết nối và theo dõi trạng thái. Tên tài khoản nhập đúng tài khoản phát.
+4) Khi kết nối thành công, tương tác được xử lý theo mục 4 bên dưới.
+5) Nếu kết nối lỗi, kiểm tra tài khoản đang Live, tên tài khoản và mạng.
+
+Địa chỉ mặc định:
+  Live:  http://localhost:3001/
+  Admin: http://localhost:3001/admin
+Không nhập localhost vào ô tên tài khoản TikTok.
+
+3. ĐƯA HỒ CÂU LÊN OBS / LIVE STUDIO
+-----------------------------------
+- Với OBS, thêm nguồn Browser, kích thước 1080 x 1920.
+- URL: http://localhost:3001/?obs=1
+  Thay cổng 3001 bằng cổng thực tế nếu máy chủ chạy cổng khác.
+- Chế độ ?obs=1 ẩn bảng điều khiển để chỉ lấy khung game.
+- Nếu Live Studio yêu cầu HTTPS, dùng phần link HTTPS trong bảng điều khiển.
+  Copy địa chỉ ứng dụng tạo ra, không tự đổi localhost thành https.
+  Tính năng link công khai cần mạng và dịch vụ tunnel hoạt động.
+- Không phát âm thanh đồng thời từ nhiều cửa sổ để tránh tiếng lặp.
+- Khi thay mã nguồn/giao diện mà trang chưa cập nhật, nhấn Ctrl + F5.
+
+4. TƯƠNG TÁC CỦA NGƯỜI XEM
+---------------------------
+Bình luận:
+  - Mỗi bình luận hợp lệ kích hoạt ngẫu nhiên 50% quăng cần, 50% thả thính.
+  - Đồng thời đưa/cập nhật người chơi vào nhóm dự bốc cá.
+  - Không có từ khóa bắt buộc và không đảm bảo bình luận nào cũng nhận cá.
+  - Hiệu ứng quăng cần/thả thính từ bình luận không đọc lời thoại riêng.
+  - Bộ lọc và giới hạn 3,5 giây giữa hai bình luận của cùng người vẫn áp dụng.
+  - Người đang ngồi có bong bóng bình luận trên đầu khoảng 6 giây.
+
+Like (thả tim):
+  - Kích hoạt thổi còi báo cá. Một gói sự kiện like nhận từ TikTok tạo một lần
+    hành động; không đảm bảo mỗi tim riêng lẻ là một tiếng còi.
+
+Follow / chia sẻ:
+  - Kích hoạt mồi thượng hạng, nhận cá ngay.
+  - Random 50% tier 2 hoặc 50% tier 3.
+
+Tặng quà:
+  - Kích hoạt mồi thượng hạng, nhận cá ngay.
+  - Tổng giá trị 1–30 xu: nhận cá tier 3.
+  - Trên 30 xu: random 50% tier 3 hoặc 50% tier 4.
+  - Đây là số xu quà tặng, không phải số tiền Việt Nam chủ Live nhận được.
+
+Follow/chia sẻ/quà không phải chờ ba lượt nghỉ của cơ chế bốc cá.
+
+5. CƠ CHẾ BỐC CÁ VÀ THỜI GIAN GIỮA CÁC LƯỢT
+---------------------------------------------
+- Nhóm dự câu giữ tối đa 100 tài khoản thật bình luận hợp lệ gần nhất.
+- Mỗi tài khoản chỉ có một suất. Bình luận lại đưa người đó về cuối danh sách.
+- Khi đủ 100, người lâu nhất chưa bình luận nhường suất cho người mới.
+- Người không bình luận thêm vẫn có cơ hội cho đến khi bị thay khỏi nhóm.
+- Nhóm dự câu không phải danh sách người chắc chắn còn xem Live; người đã
+  rời Live vẫn có thể được bốc nếu còn nằm trong nhóm này.
+- Mỗi người có 1 vé; bình luận hợp lệ trong 15 giây gần nhất được tổng 3 vé.
+  Spam không cộng dồn vé.
+- Người ngoài các ghế hiển thị vẫn dự câu được. Có ghế hoặc thứ hạng cao
+  không tự tăng số vé.
+
+Mỗi lượt xét:
+1) Đếm người đủ điều kiện (không tính người đang nghỉ).
+2) Random xem lượt đó có cá cắn hay không theo bảng sau.
+3) Nếu có cá, bốc tối đa một người theo vé, rồi random tier, loại và cân nặng.
+
+  Người đủ điều kiện    Có cá       Không có cá
+  0                     0%          100%
+  1                     25%         75%
+  5                     40%         60%
+  10                    55%         45%
+  20                    70%         30%
+  50                    85%         15%
+  100                   95%         5%
+
+Giữa các mốc, tỷ lệ tăng tuyến tính. Đây là tỷ lệ của cả lượt, không phải
+tỷ lệ riêng của từng người. Ít người có thể trượt nhiều lượt liên tiếp.
+
+Nghỉ sau khi trúng lượt bốc:
+  Trúng lượt N thì nghỉ N+1, N+2, N+3; từ N+4 mới được dự lại.
+  Lượt không ai trúng vẫn tính một lượt. Thời gian chờ không tự tính thành lượt.
+  Bình luận lại không xóa thời gian nghỉ.
+
+Ô “Thời gian mỗi lần câu được cá (giây)”:
+  - Mặc định 15 giây, chỉnh được 1–60 giây.
+  - Sau khi thông báo đóng mới bắt đầu chờ khoảng này để xét lượt tiếp.
+  - Khi thông báo đang chờ giọng đọc hoặc đang hiện, tạm dừng lượt bốc.
+  - Nếu lượt trượt cá, đợi khoảng đã cài rồi xét lại.
+  - Không đảm bảo cứ đúng 15 giây sẽ có cá vì vẫn có lượt trượt.
+  - Nếu nhiều màn hình cùng mở, chờ chúng hoàn tất thông báo.
+  - Follow/quà và nút thử thủ công được xử lý riêng, có thể nhận cá ngay.
+
+6. CÁ, TIER VÀ CÂN NẶNG
+------------------------
+Lượt câu thông thường chọn tier theo tỷ lệ:
+  Tier 1: 60% | Tier 2: 25% | Tier 3: 11% | Tier 4: 4%.
+Trong cùng tier, các loài có cơ hội bằng nhau. Cân nặng random trong khoảng.
+Thưởng follow/quà dùng tier riêng ở mục 4, không dùng bảng tỷ lệ này.
+
+Tier 1:
+  Cá Bống Cát                         0,2–0,6 kg
+  Cá Rô Đồng                         0,3–0,9 kg
+  Cá Mè Hoa                          1,2–2,8 kg
+  Cá Trôi Đen                        1,5–3,5 kg
+  Cá Tai Tượng                       1–2,6 kg
+Tier 2:
+  Cá Chép Vàng Cát Tường              2,5–5,8 kg
+  Cá Tra Khủng                       4–9,8 kg
+  Cá Lăng Đốm Hoa                     3,2–7,5 kg
+  Cá Chim Trắng Lưỡi Kiếm             2,8–6,2 kg
+Tier 3:
+  Cá Koi Ngũ Sắc Hoàng Gia            5,5–13,5 kg
+  Cá Trê Hoàng Kim Phát Quang         6,5–15 kg
+  Cá Tầm Hoàng Gia Hắc Ngự            8,5–19,5 kg
+  Cá Chuối Hoàng Đế                  4,8–12 kg
+Tier 4:
+  Cá Rồng Bối Đầu Vàng                18–38,5 kg
+  Thủy Quái Hồ Sâu (Cá Hô)            42–96 kg
+  Cụ Rùa Vàng Thần Long               55–99,9 kg
+
+7. GHẾ, VƯƠNG MIỆN VÀ BẢNG XẾP HẠNG
+------------------------------------
+- Hồ có 30 ghế. Xếp hạng người thật theo tổng kg; bằng kg thì xét điểm.
+- Top 20 người thật chắc chắn có ghế.
+- 10 ghế còn lại ưu tiên người ngoài Top 20 mới vào Live gần nhất.
+- Người mới vào có thể thay người vào trước trong nhóm 10 ghế này.
+- Người vẫn đủ điều kiện giữ vị trí; riêng Top 1–3 chuyển về bục dẫn đầu.
+- Top 1 ở giữa, lớn nhất, vương miện vàng trên đầu.
+- Top 2 bên trái Top 1, vương miện bạc; Top 3 bên phải, vương miện đồng.
+- Bot không vào bảng xếp hạng người thật, không lấy chỗ người thật đủ điều kiện.
+- Khi chỉ chạy giả lập, bot được xếp theo kg; tăng kg sẽ đổi hạng và ghế Top.
+- Các ghế hiển thị và nhóm 100 người dự câu là hai danh sách khác nhau.
+
+8. TẠO NGƯỜI GIẢ LẬP VÀ THỬ RPC
+--------------------------------
+- Số người tạo mặc định 5; có thể chọn 1–30.
+- Bấm “Tạo người câu ngẫu nhiên”. Chỉ tạo thêm đến số ghế trống còn lại.
+- Người mới được xếp ngẫu nhiên vào chỗ trống; Top 1–3 vẫn về ba ghế dẫn đầu.
+- Bộ chọn trong phần RPC cho phép chọn đúng người giả lập đang ngồi.
+- Các nút khi chọn người sẽ cập nhật chính người đó, không tạo bản sao.
+- Để lựa chọn mặc định nếu muốn dùng tên nhập tay; tên mặc định là
+  “Cần thủ ẩn danh”. Đổi tên nhập tay có thể tạo một người giả lập khác.
+- Nếu đầy ghế giả lập, người RPC có thành tích tốt hơn có thể thay bot yếu hơn;
+  người RPC không đẩy người thật đủ điều kiện khỏi ghế.
+
+Các nút thử:
+  Giật cần lên cá: nhận ngay cá ngẫu nhiên, không cần chờ lượt bốc.
+  Quăng cần thả phao: hiệu ứng quăng cần, cộng 5 điểm, chưa nhận cá.
+  Thả thính (+5): cộng 5 mồi và 5 điểm, chưa nhận cá.
+  Thổi còi: hiệu ứng còi, cộng 15 điểm, chưa nhận cá.
+  Mồi thượng hạng: thử thưởng cá theo giá trị xu của nút.
+  Săn thủy quái: thử thưởng cá tier 4.
+
+Tự câu của giả lập:
+  - Khi có nhóm người thật dự câu, bot không giành lượt bốc.
+  - Khi không có nhóm người thật, bot đang ngồi dùng cùng tỷ lệ cá cắn,
+    khoảng chờ đã cài và quy tắc nghỉ ba lượt.
+  - Bot tự động cần bật giả lập. Người RPC đang ngồi có thể tự dự lượt mà
+    không cần bật chế độ tạo bot tự động.
+  - Bot rời ghế ngừng tham gia. Tắt giả lập sẽ dừng bot tự động;
+    người RPC là trường hợp thử riêng như mô tả trên.
+
+9. GIỌNG ĐỌC, ÂM THANH VÀ THẺ THÔNG BÁO
+----------------------------------------
+- Bấm “Bật âm thanh & giọng đọc” trên trang Live nếu chưa nghe được.
+- Chọn giọng, tốc độ và âm lượng trong phần giọng đọc; chờ bộ giọng sẵn sàng.
+- Cá tier 1 chỉ hiện thẻ, KHÔNG tạo audio chúc mừng.
+- Cá tier 2–4 có lời chúc mừng nếu bật giọng đọc và không bị chế độ lọc tắt.
+- Thẻ có ảnh cá, tên, tier/độ hiếm, kg, avatar và tên người câu.
+- Avatar không có hoặc tải lỗi sẽ dùng chữ viết tắt tên.
+- Thẻ không làm tối hoặc làm mờ nền hồ phía sau.
+- Khi có giọng đọc, thẻ chờ đến lượt đọc rồi hiện đúng cá/người.
+- Khi không đọc hoặc âm thanh bị trình duyệt chặn, thẻ hiện khoảng 6,5 giây.
+- Có thể bấm bên ngoài thẻ để đóng sớm.
+- Giọng đọc chạy lần lượt, tối đa 6 câu đang chờ; đông quá có thể bỏ câu chờ
+  cũ nhất. Bỏ giọng đọc không làm mất cá hoặc điểm.
+- Có chống lặp giữa các tab; nên chỉ dùng một nguồn phát âm thanh chính.
+
+Chế độ giọng của giả lập (không ảnh hưởng người thật):
+  Chúc mừng tất cả: đọc cá tier 2 trở lên.
+  Chỉ cá to: tier 2 trở lên và nặng ít nhất 5 kg.
+  Không chúc mừng: bot chỉ hiện thông báo.
+
+10. ĐẾM NGƯỢC VÀ TỰ RESET BẢNG XẾP HẠNG
+----------------------------------------
+- Mặc định mỗi 60 phút. Chỉnh ở ô “Tự reset bảng xếp hạng (phút)”.
+- Cho phép 1–1440 phút, tự lưu khi đổi. Đổi thời gian sẽ đếm lại từ đầu.
+- Đếm ngược hiển thị ở bảng xếp hạng và phần điều khiển.
+- Hết giờ hiện thông báo reset trong khoảng 8 giây và bắt đầu chu kỳ mới.
+- Reset chu kỳ xóa kg, điểm, số cá, cá tốt nhất và tổng kết vòng.
+- Reset chu kỳ GIỮ người đang tham gia, avatar, nhóm dự câu và cài đặt.
+
+Nút “Reset — Xóa hết” khác reset chu kỳ:
+  Có xác nhận. Xóa toàn bộ người chơi, ghế, thành tích, nhóm dự câu;
+  dừng giả lập và bắt đầu lại đếm ngược. Cài đặt giọng vẫn giữ.
+
+Mỗi lần chạy lại máy chủ:
+  Bắt đầu phiên mới, không nạp lại thành tích/người chơi phiên cũ.
+  Cấu hình vẫn được giữ; nếu đã bật giả lập thì bot mới được tạo theo số đã lưu.
+
+11. TỰ LƯU CẤU HÌNH VÀ SAO LƯU
+--------------------------------
+- Số người tạo, khoảng chờ câu, chu kỳ reset tự lưu khi đổi giá trị hợp lệ.
+- Giọng, tốc độ, âm lượng và các tùy chọn lưu theo thao tác điều khiển.
+- Các ô thời gian vẫn có nút Lưu để dùng khi cần.
+- Tên/lời nhắn nhập tay của phần thử RPC không phải thành tích người thật.
+- Cấu hình portable nằm tại _internal/app/data/fishing-state.json.
+- Nhật ký nằm tại _internal/app/data/server.log.
+- Khi sao lưu/chuyển máy, đóng phần mềm rồi copy cả thư mục portable.
+- ZIP phát hành không chứa thành tích, cấu hình cá nhân, log hay audio đã tạo
+  của máy đóng gói. Lần mở đầu dùng mặc định của ứng dụng.
+
+12. XỬ LÝ NHANH CÁC TÌNH HUỐNG THƯỜNG GẶP
+-------------------------------------------
+Không thấy giao diện mới:
+  Nhấn Ctrl + F5. Nếu thay code máy chủ, phải dừng/chạy lại máy chủ.
+  Với bản portable, phải dùng bộ file cập nhật đầy đủ.
+
+Có một người nhưng lâu không nhận cá:
+  Một người đủ điều kiện chỉ có 25% cơ hội có cá mỗi lượt. Sau khi trúng còn
+  phải nghỉ ba lượt. Đây không phải lỗi khi nhiều lượt không có cá.
+  Xem dòng log ở RPC: số người đủ điều kiện, tỷ lệ, người trúng, loại cá/tier/kg.
+
+Không nghe giọng:
+  Kiểm tra cá có tier 2 trở lên không; bật âm thanh, TTS và âm lượng.
+  Kiểm tra chế độ giọng giả lập, trạng thái bộ giọng, tab bị tắt tiếng và loa.
+  Kiểm tra có tab khác đã phát câu đó không. Xem nhật ký nếu worker báo lỗi.
+
+Không tạo đủ số bot đã chọn:
+  Chỉ tạo được theo số ghế trống. Người thật có ưu tiên; không dùng bot để
+  đẩy người thật khỏi ghế. Muốn thử từ đầu, dùng Reset — Xóa hết.
+
+Tăng kg nhưng chưa có ghế:
+  Người thật cần vào Top 20 hoặc thuộc 10 người mới vào được ưu tiên.
+  Bot chỉ thay bot yếu hơn, không chen vào ghế người thật đã đủ điều kiện.
+
+Không kết nối được Live:
+  Kiểm tra tài khoản thật sự đang phát, nhập đúng @username và kết nối mạng.
+  Các sự kiện còn phụ thuộc dữ liệu TikTok gửi về bộ kết nối.
+
+Không mở được trang:
+  Kiểm tra máy chủ đã chạy và cổng thực tế. Mở bằng nút trong launcher.
+  Nếu báo thiếu file, giải nén lại toàn bộ; không chạy exe trực tiếp trong ZIP.
+
+13. CHẠY MÃ NGUỒN (CHỈ DÀNH CHO BẢN DEV)
+------------------------------------------
+Từ thư mục tiktok_game, trên máy có môi trường Python vip:
+  & "C:\Users\ADMIN\miniconda3\envs\vip\python.exe" .\cauca\launcher.py
+Bản portable exe không cần thực hiện lệnh này.

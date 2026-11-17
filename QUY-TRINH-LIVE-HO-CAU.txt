@@ -1,0 +1,15 @@
+PHÂN BIỆT 2 NÚT HỒ CÂU
+
+1 - BAT SERVER + MO HO CAU
+Dùng khi bắt đầu. Nút này khởi động server bản chính; khi server sẵn sàng, nó tự mở trang hồ câu trong Chrome riêng. Chờ link HTTPS hiện trên trang.
+
+2 - CHI MO TRANG HO CAU
+Dùng khi server đã chạy nhưng bạn đóng/mất tab Chrome. Nút này chỉ mở lại trang hồ tại localhost; nó không khởi động server và không tạo lại link HTTPS.
+
+BẮT ĐẦU LIVE
+1. Bấm nút số 1 và đợi trang hồ mở lên, link HTTPS xuất hiện.
+2. Bấm Copy link HTTPS trên trang hồ, dán vào TikTok LIVE Studio.
+3. Bấm Go Live trong TikTok LIVE Studio.
+4. Quay lại trang hồ, bấm Kết Nối.
+
+Nếu chỉ đóng tab Chrome: bấm nút số 2. Nếu vừa tắt server/máy tính: bấm nút số 1, lấy link HTTPS mới và cập nhật trong TikTok LIVE Studio.

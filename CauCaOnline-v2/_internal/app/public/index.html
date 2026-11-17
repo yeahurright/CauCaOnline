@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hồ Câu Cá Giải Trí — TikTok Live RPC (9:16 Cần Thủ Online)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Noto+Serif:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/live.css?v=21" />
+  <link rel="stylesheet" href="/css/pond-scene.css?v=9" />
+  <link rel="preload" as="image" href="/assets/angler_simple_atlas.png" />
+  <link rel="stylesheet" href="/css/tts-controls.css" />
+</head>
+<body>
+  <div class="app-workspace">
+    <!-- ====================================================================
+         KHUNG 9:16 CHUẨN TIKTOK LIVE / OBS BROWSER SOURCE (1080 x 1920)
+         ==================================================================== -->
+    <div class="stage-wrapper" id="stageWrapper">
+      <div class="stage-9x16" id="stage9x16" data-map="still">
+        <!-- 1. HÌNH NỀN HỒ CÂU SƠN THỦY HỮU TÌNH 9:16 -->
+        <img
+          src="/assets/pond-map-still.webp"
+          alt=""
+          class="fishing-lake-bg is-current-map"
+          data-pond-map="still"
+        />
+
+        <!-- 1b. LỚP NỀN ĐỘNG: SƯƠNG TRÔI • TIA NẮNG • NƯỚC CHẢY • ĐỐM SÁNG -->
+        <div class="ambient-layer" aria-hidden="true">
+          <div class="ambient-mist"></div>
+          <div class="ambient-rays"></div>
+          <div class="ambient-caustics"></div>
+          <div class="ambient-glow"></div>
+        </div>
+
+        <div class="water-ambient-overlay"></div>
+
+        <!-- 2. THANH TRẠNG THÁI MỎNG TRÊN ĐỈNH -->
+        <header class="minimal-top-bar">
+          <div class="live-pill" id="liveStatusPill">
+            <span class="live-dot" id="liveDot"></span>
+            <span id="liveStatusText">HỒ CÂU • CHỜ KẾT NỐI</span>
+          </div>
+          <div class="top-Right-badges">
+            <div class="mini-stat-pill">
+              🐟 <strong id="statCatches">0</strong> cá • ⚖️ <strong id="statWeight">0</strong> kg • 🪱 <strong id="statBait">0</strong> mồi
+            </div>
+          </div>
+        </header>
+
+        <!-- 3. PHAO CÂU NHẤP NHÔ GIỮA HỒ -->
+        <div class="fishing-bobber-zone" id="fishingBobberZone" title="Bấm để Giật Cần Lên Cá">
+          <div class="bobber-body" id="bobberBody">
+            <div class="bobber-tip"></div>
+            <div class="bobber-float"></div>
+          </div>
+          <div class="bobber-ripples">
+            <div class="bobber-ripple-ring"></div>
+            <div class="bobber-ripple-ring"></div>
+          </div>
+        </div>
+
+        <!-- DÂY CƯỚC CÂU TỪ CẦN CÂU ĐẾN PHAO (SVG) -->
+        <svg class="fishing-line-svg">
+          <path id="fishingLinePath" class="fishing-line-path" d="M 820 1480 Q 680 1300 540 1150" />
+        </svg>
+
+        <!-- 4. ĐIỂM TƯƠNG TÁC HAI BÊN HỒ CÂU -->
+        <div class="fishing-hotspot hotspot-bait" id="spotBait" title="Bấm để Thả Thính Dụ Cá">
+          <span class="hotspot-icon">🪱</span>
+          <span class="hotspot-label">Thả Thính</span>
+        </div>
+
+        <div class="fishing-hotspot hotspot-cast" id="spotCast" title="Bấm để Quăng Cần Thả Phao">
+          <span class="hotspot-icon">🎣</span>
+          <span class="hotspot-label">Quăng Cần</span>
+        </div>
+
+        <div class="fishing-hotspot hotspot-horn" id="spotHorn" title="Bấm để Thổi Còi Báo Cá">
+          <span class="hotspot-icon">📯</span>
+          <span class="hotspot-label">Báo Cá (<span id="statHorn">24</span>)</span>
+        </div>
+
+        <!-- 5. CẦN THỦ TRƯỞNG TRÊN BẾN GỖ (GÓC DƯỚI PHẢI) -->
+        <div class="master-angler-station" id="masterAnglerStation">
+          <div class="angler-wish-bubble" id="anglerWishBubble">
+            “Thả mồi trùn quế, săn chú cá chép vàng 5 ký!”
+          </div>
+          <img
+            src="/assets/angler_master.png"
+            alt="Cần Thủ Trưởng"
+            class="angler-sprite-img"
+            id="anglerSpriteImg"
+          />
+          <div class="name-tag">
+            <div class="tag-avatar" id="anglerAvatar">🎣</div>
+            <div class="tag-texts">
+              <div class="tag-name" id="anglerName">Cần Thủ Hải Đăng</div>
+              <div class="tag-sub" id="anglerAction">✨ Quăng cần • Giỏ: 18.5kg</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. HÀNG 6 GHẾ CÂU VIP (TOP 6 CẦN THỦ BỜ HỒ) -->
+        <div class="vip-stools-layer" id="vipStoolsLayer"></div>
+
+        <!-- 7. LỚP CANVAS HIỆU ỨNG BONG BÓNG, SÓNG NƯỚC, GIỌT NƯỚC BẮN & BÓNG CÁ -->
+        <canvas id="fishingCanvas"></canvas>
+
+        <!-- 8. THANH HUD GỌN GÀNG DƯỚI ĐÁY -->
+        <footer class="bottom-hud-bar">
+          <div class="hud-left-col">
+            <div class="hud-active-notice" id="hudActiveNotice">
+              <span>🐟</span>
+              <strong id="activeAnglerName">Hồ câu</strong>
+              <span>—</span>
+              <span id="activeActionTag">Chờ lượt câu</span>
+              <span>🎣</span>
+            </div>
+
+            <!-- 3 thẻ "quà" đã bỏ: bị TikTok che ở đáy + trông giống kêu gọi tặng quà -->
+          </div>
+
+        </footer>
+
+        <!-- BXH dời lên GÓC PHẢI TRÊN (vùng an toàn, không bị TikTok che đáy) -->
+        <div class="hud-right-leaderboard">
+          <div class="hud-lb-header" id="lbHeader">👑 VUA SÁT CÁ BỜ HỒ</div>
+          <div class="hud-lb-list" id="leaderboardList"></div>
+        </div>
+
+        <!-- BANNER ĐẠI CHIẾN THỦY QUÁI -->
+        <div class="leviathan-banner" id="leviathanBanner">
+          <div class="leviathan-title" id="leviathanTitle">🐉 ĐẠI CHIẾN THỦY QUÁI HỒ SÂU 🐉</div>
+          <div class="leviathan-sub" id="leviathanSub">Cần thủ giật được Cá Rồng Kim Long Khổng Lồ!</div>
+        </div>
+
+        <!-- MODAL CHIẾN TÍCH BẮT CÁ -->
+        <div class="catch-modal-overlay" id="catchModal">
+          <div class="catch-card">
+            <div class="catch-badge" id="catchBadge">QUÝ HIẾM</div>
+            <div class="catch-progress" id="revealProgress" hidden></div>
+            <div class="catch-icon" id="catchIcon">🐠</div>
+            <div class="catch-fish-name" id="catchFishName">Cá Chép Vàng Cát Tường</div>
+            <div class="catch-location">
+              <span class="catch-weight-pill" id="catchWeight"></span>
+              <span id="catchMap" hidden></span>
+            </div>
+            <div class="catch-effect" id="catchEffect" hidden></div>
+            <div class="catch-sale" id="catchSale" hidden></div>
+            <div class="catch-twist" id="revealTwistLabel"></div>
+            <div class="catch-winner">
+              <div class="catch-avatar-ring">
+                <img id="catchAnglerAvatar" class="catch-angler-avatar" alt="Ảnh đại diện người câu" hidden />
+                <span id="catchAvatarFallback" class="catch-avatar-fallback">🎣</span>
+              </div>
+              <div class="catch-winner-details">
+                <span class="catch-winner-label">CẦN THỦ VỪA BẮT ĐƯỢC</span>
+                <div class="catch-angler-name" id="catchAnglerName">Hải Đăng</div>
+              </div>
+            </div>
+            <div class="catch-quote" id="catchQuote">“Chép vàng vượt vũ môn hóa rồng, rước đại cát đại lợi về nhà!”</div>
+          </div>
+        </div>
+        <aside class="pond-forecast" aria-label="Thời tiết và bình chọn">
+          <div class="pond-current">
+            <strong id="pondCurrent">Hồ Nước Tù</strong>
+            <span id="pondCurrentWeather">Nắng</span>
+            <span id="pondMapTime" hidden></span>
+          </div>
+          <div id="pondBallot" hidden>
+            <div class="pond-ballot-heading">
+              <span id="pondBallotTitle"></span><span id="pondBallotTime"></span>
+            </div>
+            <div class="pond-options" id="pondBallotOptions"></div>
+            <div class="pond-ballot-hint">Gõ một lựa chọn trong chat · 1 phiếu mỗi người</div>
+          </div>
+        </aside>
+        <aside class="pond-actions-panel" id="pondActionsPanel" aria-label="Hoạt động ven hồ" hidden>
+          <div>Gõ <strong>chặt cây · nhặt rác · tưới hoa · cho cá ăn</strong></div>
+          <div id="pondActionStatus">Hàng chờ trống</div>
+        </aside>
+        <!-- DÒNG CHẠY CHỮ: VUA SÁT CÁ -->
+        <div id="topTicker">
+          <div id="topTickerTrack"></div>
+        </div>
+        <!-- DẢI SUÝT TRÚNG: nhiều người cùng được gọi tên -->
+        <div id="nearMissBar"><span id="nearMissText"></span></div>
+        <!-- BẢNG CÁ ĐỒNG THỜI (thu nhỏ) -->
+        <div id="multiCatchGrid"></div>
+        <!-- THẺ CÁ NHÂN: ai cũng thấy cá & cân nặng của mình -->
+        <div id="personalCards"></div>
+        <!-- HÀNG CHỜ GHẾ -->
+        <div id="waitingBar" style="position:absolute;left:0;right:0;top:14%;z-index:30;display:none;justify-content:center;pointer-events:none;">
+          <div style="background:rgba(8,16,26,.70);border:2px solid rgba(96,165,250,.65);border-radius:14px;padding:10px 18px;font:700 24px/1.25 'Be Vietnam Pro',system-ui,sans-serif;color:#dbeafe;max-width:780px;">
+            ⏳ HÀNG CHỜ GHẾ: <span id="waitingNames"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====================================================================
+         BẢNG ĐIỀU KHIỂN NHANH RPC & GIẢ LẬP TRỰC TIẾP (ẨN KHI ?obs=1)
+         ==================================================================== -->
+    <aside class="quick-dock" id="quickDock">
+      <section id="demoDock" hidden>
+        <div class="dock-header">
+          <div class="dock-title">Hồ câu chạy thử</div>
+          <a class="dock-link" href="?obs=1" target="_blank" rel="noopener">Góc khán giả ↗</a>
+        </div>
+        <div class="dock-section">
+          <label for="demoMap">Khu câu</label>
+          <select class="dock-input" id="demoMap"></select>
+        </div>
+        <div class="dock-section">
+          <label for="demoActor">Gửi chat với vai</label>
+          <select class="dock-input" id="demoActor"></select>
+          <form id="demoChat" class="dock-input-row">
+            <input class="dock-input" id="demoChatText" maxlength="180" placeholder="Viết bình luận…" aria-label="Bình luận thử" autocomplete="off" required />
+            <button class="dock-btn gold" type="submit">Gửi</button>
+          </form>
+          <div class="dock-grid-2" id="demoQuickActions">
+            <button class="dock-btn" data-demo-chat="câu cá">Thả câu</button>
+            <button class="dock-btn" data-demo-chat="chặt cây">Chặt cây</button>
+            <button class="dock-btn" data-demo-chat="nhặt rác">Nhặt rác</button>
+            <button class="dock-btn" data-demo-chat="tưới hoa">Tưới hoa</button>
+            <button class="dock-btn" data-demo-chat="cho cá ăn">Cho cá ăn</button>
+          </div>
+          <div id="demoStatus" role="status">Ghế viền xanh là của bạn. Gõ tên một lựa chọn trên hồ để thử bình chọn.</div>
+        </div>
+        <div class="dock-grid-2">
+          <button class="dock-btn" id="demoGuests">Thêm 2 người thử</button>
+          <button class="dock-btn" id="demoAudio" aria-pressed="false">Bật giọng đọc</button>
+          <button class="dock-btn" id="demoReset">Chơi lại từ đầu</button>
+        </div>
+      </section>
+      <div class="dock-header">
+        <div class="dock-title">🎣 Điều Khiển Hồ Câu Cá</div>
+        <a href="/admin" target="_blank" class="dock-link">Mở Admin RPC ↗</a>
+      </div>
+
+      <div class="dock-section">
+        <div class="dock-section-title">🌐 Link HTTPS Cho TikTok Live Studio (Không Lỗi URL)</div>
+        <div class="dock-input-row">
+          <input type="text" id="inputPublicTunnelUrl" class="dock-input" readonly value="Tunnel đang tắt — dùng địa chỉ local" />
+          <button class="dock-btn gold" id="btnCopyTunnelUrl">📋 Copy</button>
+          <button class="dock-btn" id="btnRefreshTunnelUrl" title="Tạo lại link HTTPS mới">🔄</button>
+        </div>
+      </div>
+
+      <div class="dock-section">
+        <div class="dock-section-title">🔊 Âm Thanh Hồ Câu & Giọng Đọc</div>
+        <link rel="stylesheet" href="/css/tts-controls.css" />
+        <div id="speechControls" class="speech-panel"></div>
+        <script src="/js/tts-voices.js" defer></script>
+        <button class="dock-btn gold" id="btnUnlockAudio">
+          🔔 Bật Âm Thanh Hồ & Giọng Đọc AI
+        </button>
+        <div class="dock-grid-2">
+          <button class="dock-btn active-toggle" id="btnToggleTts">🎙️ Giọng Đọc: BẬT</button>
+          <button class="dock-btn active-toggle" id="btnToggleMusic">🎵 Nhạc Nền: BẬT</button>
+        </div>
+        <div class="volume-control-row">
+          <div class="volume-label-line">
+            <span>🎵 Âm lượng Nhạc nền</span>
+            <strong id="valMusicVol">55%</strong>
+          </div>
+          <input type="range" id="sliderMusicVol" class="volume-slider" min="0" max="100" value="55" />
+        </div>
+        <div class="volume-control-row">
+          <div class="volume-label-line">
+            <span>🎙️ Âm lượng Giọng đọc</span>
+            <strong id="valTtsVol">95%</strong>
+          </div>
+          <input type="range" id="sliderTtsVol" class="volume-slider" min="0" max="100" value="95" />
+        </div>
+      </div>
+
+      <div class="dock-section">
+        <div class="dock-section-title">📡 Kết Nối Phòng TikTok Live</div>
+        <div class="dock-input-row">
+          <input type="text" id="inputTikTokUser" class="dock-input" value="@eggvn2007" placeholder="Nhập @username TikTok (Enter là vào)" autocomplete="off" />
+          <button class="dock-btn gold" id="btnConnectTikTok">Kết Nối</button>
+        </div>
+        <button class="dock-btn gold" id="btnFillSimulatedSeats" hidden>🎲 Tạo người câu ngẫu nhiên</button>
+        <label for="simulatedCount" hidden>Số người tạo (1–30)</label>
+        <input class="dock-input" id="simulatedCount" type="number" min="1" max="30" step="1" value="5" hidden />
+        <button class="dock-btn" id="btnResetFishing" style="background:#7d2525;color:#fff">Reset — Xóa hết</button>
+        <div class="sim-voice-controls" hidden>
+          <label for="simCatchVoice">🎙 Chúc mừng người giả lập</label>
+          <select id="simCatchVoice">
+            <option value="large">Chỉ cá to (từ 5 kg)</option>
+            <option value="off">Không chúc mừng</option>
+            <option value="all" selected>Chúc mừng tất cả</option>
+          </select>
+          <small id="simCatchVoiceStatus" role="status"></small>
+        </div>
+        <div id="seatingStatus" role="status" style="font-size:12px;color:#b6e6c8;line-height:1.5">Chỉ người đang xem live mới được câu cá.</div>
+        <button class="dock-btn" id="btnToggleAutoSim" hidden>
+          🤖 Tự động Giả lập Cần Thủ: TẮT
+        </button>
+      </div>
+
+      <div class="dock-section">
+        <div class="dock-section-title">🎣 Kích Hoạt Hành Động Câu Cá (RPC)</div>
+        <input type="text" id="inputAnglerName" class="dock-input" value="Cần thủ ẩn danh" placeholder="Tên cần thủ..." />
+        <select id="rpcSimulatedAngler" class="dock-input" aria-label="Chọn giả lập đang ngồi"><option value="">Tạo / dùng tên nhập bên trên</option></select>
+        <input type="text" id="inputAnglerWish" class="dock-input" value="Săn con cá chép giòn 5 ký làm tiệc!" placeholder="Lời chúc / mong ước..." />
+        <div id="fishingRoundStatus" role="status" style="font-size:12px;color:#b6e6c8;line-height:1.5">Xét cá sau thời gian chờ đã cài đặt. Đang chờ lượt tiếp theo…</div>
+
+        <div class="dock-grid-2">
+          <button class="dock-btn gold" id="btnRpcHook">🐟 Giật Cần Lên Cá</button>
+          <button class="dock-btn" id="btnRpcCast">🎣 Quăng Cần Thả Phao</button>
+          <button class="dock-btn" id="btnRpcBait">🪱 Thả Thính (+5)</button>
+          <button class="dock-btn" id="btnRpcHorn">📯 Thổi Còi Báo Cá</button>
+          <button class="dock-btn" id="btnRpcBigFish">🦐 Mồi Thượng Hạng</button>
+          <button class="dock-btn gold" id="btnRpcLeviathan">🐉 Săn Thủy Quái</button>
+        </div>
+      </div>
+
+      <div class="dock-section">
+        <div class="dock-section-title">📜 Nhật Ký Hồ Câu Cá Gần Nhất</div>
+        <div class="event-feed" id="eventFeed"></div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="/js/audio.js?v=19"></script>
+  <script src="/js/particles.js?v=6"></script>
+  <script src="/js/pond-actions-data.js?v=1"></script>
+  <script src="/js/pond-maps.js?v=3"></script>
+  <script src="/js/pond-map-layout.js?v=1"></script>
+  <script src="/js/pond-scene.js?v=4"></script>
+  <script src="/js/catch-reward.js?v=12"></script>
+  <script src="/js/ambient-motion.js?v=6"></script>
+  <script src="/js/live.js?v=69"></script>
+  <script src="/js/simulation-controls.js"></script>
+  <script src="/js/reset-fishing.js"></script>
+  <script src="/js/simulated-roster-controls.js"></script>
+  <script src="/js/leaderboard-reset-controls.js"></script>
+<!-- BUILD:2026-11-11-pond-fish-v2 -->
+  <script>
+    // Tự tải lại khi giao diện được cập nhật (đổi mã BUILD bên trên)
+    (function () {
+      function readBuild(html) {
+        var marker = html.match(/<!--\s*BUILD:([a-z0-9-]+)\s*-->/i);
+        return marker ? marker[1] : '';
+      }
+      var current = readBuild(document.documentElement.innerHTML);
+      if (!current) return;
+      setInterval(function () {
+        fetch('/', { cache: 'no-store' })
+          .then(function (r) { return r.text(); })
+          .then(function (html) {
+            var next = readBuild(html);
+            if (next && next !== current) location.reload();
+          })
+          .catch(function () {});
+      }, 15000);
+    })();
+  </script>
+</body>
+</html>

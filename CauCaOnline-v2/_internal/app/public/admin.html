@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bảng Điều Khiển JSON-RPC 2.0 — Hồ Câu Cá TikTok Live</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b1118;
+      --card: #151f2c;
+      --border: rgba(245, 184, 46, 0.42);
+      --gold: #f5b82e;
+      --gold-light: #ffe680;
+      --text: #fffdf7;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: radial-gradient(circle at 50% 0%, #1e293b 0%, #090d14 85%);
+      color: var(--text);
+      font-family: 'Be Vietnam Pro', sans-serif;
+      min-height: 100vh;
+      padding: 26px;
+    }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 24px;
+    }
+    .top-title {
+      font-size: 23px;
+      font-weight: 900;
+      color: var(--gold-light);
+    }
+    .top-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .top-links {
+      display: flex;
+      gap: 12px;
+    }
+    .btn {
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      color: var(--text);
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 13.5px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn.gold {
+      background: linear-gradient(180deg, #f5b82e 0%, #d97706 100%);
+      color: #111827;
+      border-color: #fef08a;
+    }
+    .btn.gang {
+      background: linear-gradient(90deg, #991b1b 0%, #dc2626 50%, #d97706 100%);
+      color: #ffffff;
+      border-color: #fef08a;
+      font-weight: 900;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .card h2 {
+      font-size: 17px;
+      color: var(--gold-light);
+      border-bottom: 1px solid rgba(245, 184, 46, 0.2);
+      padding-bottom: 10px;
+    }
+    .row {
+      display: flex;
+      gap: 10px;
+    }
+    input {
+      width: 100%;
+      background: #0b1017;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+    }
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    pre {
+      background: #070b10;
+      border: 1px solid rgba(245, 184, 46, 0.25);
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 12.5px;
+      color: #86efac;
+      overflow-x: auto;
+      max-height: 280px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="top-bar">
+      <div>
+        <div class="top-title">🧊 BẢNG ĐIỀU KHIỂN HỒ CÂU CÁ — TIKTOK LIVE JSON-RPC 2.0</div>
+        <div class="top-sub" id="statusBanner">Đang tải trạng thái hồ câu cá...</div>
+      </div>
+      <div class="top-links">
+        <a class="btn" href="/?obs=1" target="_blank">📺 Mở Màn Hình OBS 9:16 Sạch (?obs=1)</a>
+        <a class="btn gold" href="/" target="_blank">🧊 Mở Màn Hình Hồ Câu Chính</a>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>📡 1. Kết Nối Phòng TikTok Live & Giọng Đọc Hồ Câu</h2>
+        <div class="row">
+          <input type="text" id="ttUser" value="@eggvn2007" placeholder="Nhập @username TikTok đang phát Live..." />
+          <button class="btn gold" id="btnConn">Kết Nối Live</button>
+          <button class="btn" id="btnDisc">Ngắt</button>
+        </div>
+        <div id="audienceRosterStatus" role="status" style="color:#a9c4d8;margin:8px 0">Roster người xem: chưa kết nối</div>
+        <div class="row">
+          <input type="text" id="ttsDirectText" value="Mời anh chị em ghé hồ câu cá! Chúc mọi người giật cần lên cá lớn!" />
+          <button class="btn gold" id="btnSpeak">🎙️ Đọc Loa Hồ Câu</button>
+        </div>
+        <audio id="adminAudioPreview" controls style="width: 100%; height: 38px;"></audio>
+        <link rel="stylesheet" href="/css/tts-controls.css" />
+        <div id="speechControls" class="speech-panel"></div>
+        <script src="/js/tts-voices.js" defer></script>
+      </section>
+
+      <section class="card">
+        <h2>🎣 2. Điều Khiển Hồ Câu &amp; Săn Thủy Quái</h2>
+        <div class="row">
+          <input type="text" id="rpcUser" value="Cần thủ ẩn danh" placeholder="Tên người xem..." />
+          <select id="rpcSimulatedAngler" aria-label="Chọn giả lập đang ngồi"><option value="">Tạo / dùng tên nhập bên trên</option></select>
+          <input type="text" id="rpcWish" value="Chúc cả hội cần thủ lên cá lớn!" placeholder="Lời nhắn cần thủ..." />
+        </div>
+        <div class="action-grid">
+          <button class="btn" onclick="sendRpc('fishing.castBait', { count: 5 })">🪱 Thả Thính (+5)</button>
+          <button class="btn" onclick="sendRpc('fishing.castRod')">🎣 Quăng Cần Thả Phao</button>
+          <button class="btn gold" onclick="sendRpc('fishing.hookFish')">🐟 Giật Cần Lên Cá</button>
+          <button class="btn" onclick="sendRpc('fishing.soundHorn', { readTts: true })">📯 Thổi Còi Báo Cá</button>
+          <button class="btn" onclick="sendRpc('fishing.catchBigFish', { coins: 25 })">🦐 Mồi Thượng Hạng</button>
+          <button class="btn" hidden onclick="sendRpc('live.setAutoSim', { enabled: true })">▶ Bật Giả Lập</button>
+          <button class="btn" hidden onclick="sendRpc('live.setAutoSim', { enabled: false })">⏸ Dừng Giả Lập</button>
+          <label for="simulatedCount" hidden>Số người tạo (1–30)</label>
+          <input id="simulatedCount" type="number" min="1" max="30" step="1" value="5" hidden />
+          <button class="btn gold" hidden onclick="if(document.getElementById('simulatedCount').reportValidity()) sendRpc('fishing.fillSimulatedSeats', {count:Number(document.getElementById('simulatedCount').value)})">🎲 Tạo người câu ngẫu nhiên</button>
+          <button class="btn" id="btnResetFishing" style="background:#7d2525;color:#fff">Reset — Xóa hết</button>
+        </div>
+        <div class="sim-voice-controls" hidden>
+          <label for="simCatchVoice">🎙 Chúc mừng người giả lập</label>
+          <select id="simCatchVoice">
+            <option value="large">Chỉ cá to (từ 5 kg)</option>
+            <option value="off">Không chúc mừng</option>
+            <option value="all" selected>Chúc mừng tất cả</option>
+          </select>
+          <small id="simCatchVoiceStatus" role="status"></small>
+        </div>
+        <button class="btn gang" onclick="sendRpc('fishing.catchLeviathan', { coins: 199 })">🐉 SĂN THỦY QUÁI HỒ SÂU</button>
+      </section>
+
+      <section class="card">
+        <h2>💬 3. Giả Lập Bình Luận Người Xem TikTok</h2>
+        <div class="row">
+          <input type="text" id="simComment" value="Chào cả hồ" placeholder="Nhập bình luận để thử hiển thị" />
+          <button class="btn gold" id="btnSendComment">Gửi Comment</button>
+        </div>
+        <p style="font-size: 13px; color: var(--muted);">
+          Người vào live hoặc để lại bình luận hợp lệ có thể tham gia vòng câu, kể cả khi chưa có ghế. Mỗi người có một lượt dự trong danh sách. Bình luận hiện trên hồ, thả tim phát còi và quà tặng được cảm ơn. Các hiệu ứng này không cộng điểm hay đổi kết quả câu.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>🔌 4. Nhật Ký Phản Hồi JSON-RPC 2.0 (<code>/rpc</code>)</h2>
+        <pre id="rpcOutput">{ "status": "Sẵn sàng nhận lệnh JSON-RPC 2.0" }</pre>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    async function sendRpc(method, extraParams = {}) {
+      const user = document.getElementById('rpcUser').value.trim() || 'Cần thủ ẩn danh';
+      const wish = document.getElementById('rpcWish').value.trim();
+      const body = {
+        jsonrpc: '2.0',
+        id: Date.now(),
+        method,
+        params: { user, wish, ...extraParams, ...(['fishing.castBait','fishing.castRod','fishing.hookFish','fishing.soundHorn','fishing.catchBigFish','fishing.catchLeviathan'].includes(method) ? { user: window.FishingSimulationControls?.selected()?.name || user, uniqueId: window.FishingSimulationControls?.selected()?.uniqueId || `sim:rpc:${encodeURIComponent(user)}`, avatar: window.FishingSimulationControls?.selected()?.avatar || '', selectedSimulated: Boolean(window.FishingSimulationControls?.selected()) } : {}) }
+      };
+      const res = await fetch('/rpc', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      document.getElementById('rpcOutput').textContent = JSON.stringify(data, null, 2);
+      refreshStatus();
+      return data;
+    }
+
+    document.getElementById('btnConn').onclick = () => {
+      const username = document.getElementById('ttUser').value.trim();
+      sendRpc('live.connect', { username });
+    };
+    document.getElementById('btnDisc').onclick = () => sendRpc('live.disconnect', {});
+    document.getElementById('btnSendComment').onclick = () => {
+      const comment = document.getElementById('simComment').value.trim();
+      sendRpc('fishing.comment', { comment });
+    };
+    document.getElementById('btnSpeak').onclick = async () => {
+      const text = document.getElementById('ttsDirectText').value.trim();
+      const data = await sendRpc('fishing.speak', { text, broadcast: true });
+      if (data?.result?.url) {
+        const player = document.getElementById('adminAudioPreview');
+        player.src = data.result.url;
+        // Đã phát trực tiếp ra màn hình Live, không tự động phát lặp lại ở tab Admin để tránh bị vang
+      }
+    };
+
+    async function refreshStatus() {
+      const res = await fetch('/api/state');
+      const st = await res.json();
+      window.FishingSimulationControls?.update(st);
+      document.getElementById('statusBanner').textContent =
+        `Cá đã bắt: ${st.totalCatches} | Tổng cân nặng: ${st.totalWeightKg} kg | Thính đã thả: ${st.totalBait} | TTS: ${st.tts?.engine}`;
+      const roster = st.tiktok?.audienceRoster;
+      const rosterStatus = document.getElementById('audienceRosterStatus');
+      if (rosterStatus && roster) {
+        const status = roster.status === 'verified' ? `Đã rà ${roster.namedViewers} tài khoản · ${roster.anonymousViewers} ẩn danh`
+          : roster.status === 'waiting-login' || roster.status === 'login-required' ? 'Đăng nhập TikTok trong cửa sổ riêng để rà đủ người xem'
+          : roster.status === 'unavailable' ? 'Chưa lấy được roster · sẽ thử lại, đang giữ chỗ hiện có'
+          : roster.status === 'browser-unavailable' ? 'Không mở được cửa sổ Edge/Chrome đăng nhập'
+          : roster.status === 'disconnected' ? 'Chưa kết nối live' : 'Đang kiểm tra roster người xem…';
+        rosterStatus.textContent = `Roster người xem: ${status}`;
+      }
+    }
+    refreshStatus();
+    setInterval(refreshStatus, 3500);
+  </script>
+  <script src="/js/simulation-controls.js"></script>
+  <script src="/js/reset-fishing.js"></script>
+  <script src="/js/simulated-roster-controls.js"></script>
+  <script src="/js/leaderboard-reset-controls.js"></script>
+</body>
+</html>

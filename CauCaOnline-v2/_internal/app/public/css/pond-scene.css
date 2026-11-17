@@ -1,0 +1,270 @@
+/* 20-seat pond: small bank characters and one large central champion. */
+.master-angler-station, .fishing-line-svg, .water-ambient-overlay, .fishing-bobber-zone, .fishing-hotspot { display: none; }
+/* Hồ to như cũ (tránh seam xấu); HUD/BXH lo phần mobile-safe */
+.fishing-lake-bg { object-fit: fill; opacity: 0; transition: opacity .8s ease; }
+.fishing-lake-bg.is-current-map { opacity: 1; }
+.bottom-hud-bar { justify-content: flex-start; }
+.hud-left-col { max-width: 700px; }
+.catch-icon { width: 360px; height: 360px; margin: -8px 0; display: grid; place-items: center; background-repeat: no-repeat; filter: drop-shadow(0 12px 14px #001b2aaa); }
+.catch-winner { display: flex; align-items: center; justify-content: center; gap: 18px; padding: 12px 22px; border: 1px solid #f5d57866; border-radius: 18px; background: #10352e88; max-width: 100%; }
+.catch-avatar-ring { width: 128px; height: 128px; border: 3px solid #ffe18a; border-radius: 50%; background: #183b44; overflow: hidden; flex-shrink: 0; display: grid; place-items: center; }
+.catch-angler-avatar { width: 100%; height: 100%; object-fit: cover; }
+.catch-avatar-fallback { font-size: 38px; font-weight: 800; color: #fff1bf; }
+.catch-winner-details { min-width: 0; text-align: left; }
+.catch-winner-label { font-size: 12px; letter-spacing: 1px; color: #abd9ce; }
+.catch-winner .catch-angler-name { margin-top: 5px; font-size: 23px; overflow-wrap: anywhere; }
+.catch-angler-avatar[hidden], .catch-avatar-fallback[hidden] { display: none; }
+.catch-location { display: flex; align-items: center; gap: 10px; }
+#catchMap { color: #cce6dc; background: #20473f; border-radius: 99px; font-size: 23px; padding: 4px 14px; }
+.catch-effect[data-effect="infected"] { background: #395639; color: #efffcf; }
+.catch-effect[data-effect="pure"] { background: #165766; color: #daffff; }
+.catch-effect[data-effect="lotus"] { background: #873a69; color: #ffe7f2; }
+.catch-sale.is-zero { color: #ffe5c3; background: #51372a; }
+#catchIcon[data-effect="infected"] { filter: saturate(.53) hue-rotate(22deg) drop-shadow(0 0 14px #a1c25a77); }
+#catchIcon[data-effect="pure"] { filter: drop-shadow(0 0 20px #5ae5f0aa); }
+#catchIcon[data-effect="lotus"] { filter: drop-shadow(0 0 20px #ff9fccaa); }
+.vip-stools-layer { inset: 0; width: 1080px; height: 1920px; display: block; pointer-events: none; }
+.pond-lines { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: visible; }
+.pond-fishing-line { fill: none; stroke: rgba(245,255,246,.35); stroke-width: .9; }
+.pond-rod { fill: none; stroke: #443626; stroke-width: 1.8; stroke-linecap: round; }
+.pond-fishing-line.champion-line { stroke: #fff4bcbb; stroke-width: 1.7; }
+.pond-rod.champion-line { stroke-width: 4; }
+.pond-seat { position: absolute; width: 0; height: 0; z-index: 1; }
+.pond-rank-crown { position: absolute; left: -32px; width: 64px; height: 44px; filter: drop-shadow(0 2px 2px #163c2580); }
+.pond-rank-crown svg { width: 100%; height: 100%; }
+.pond-rank-crown.is-gold { left: -42px; width: 84px; height: 58px; filter: drop-shadow(0 0 7px #ffce5488); }
+.pond-rank-crown[hidden] { display: none; }
+.pond-seat.has-comment { z-index: 8; }
+.pond-comment { position: absolute; left: -42px; width: 224px; padding: 10px 13px; border: 2px solid #e9d9a3; border-radius: 16px; background: #fffbea; color: #203c32; font: 600 18px/1.35 sans-serif; overflow-wrap: anywhere; box-shadow: 0 5px 14px #052a2555; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+.pond-seat.right .pond-comment { left: -182px; }
+.pond-seat.is-champion .pond-comment { left: -112px; }
+.pond-comment[hidden] { display: none; }
+.pond-angler-sprite { position: absolute; width: var(--sprite-size); height: var(--sprite-size); bottom: 0; left: calc(var(--sprite-size) * -.5); background-image: url('/assets/angler_simple_atlas.png'); background-repeat: no-repeat; background-size: 400% 400%; transform-origin: 50% 85%; }
+.pond-seat.right .pond-angler-sprite { scale: -1 1; }
+.pond-seat-badge { position: absolute; top: 2px; left: -55px; width: 110px; padding: 4px 5px; display: flex; flex-direction: column; align-items: center; border-radius: 4px; background: #092f25d9; color: #fff8da; }
+.pond-seat-badge strong { width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; font-size: 15px; line-height: 18px; font-weight: 700; }
+.pond-seat-badge span { font-size: 11px; line-height: 14px; color: #b6e6c8; }
+.pond-seat-badge .pond-bot-icon { position: absolute; right: -5px; top: -6px; font-size: 10px; line-height: 14px; }
+.pond-seat.is-champion .pond-seat-badge .pond-bot-icon { font-size: 14px; line-height: 18px; }
+.pond-bot-icon[hidden] { display: none !important; }
+.pond-empty-stool { display: none; position: absolute; width: 24px; height: 15px; left: -12px; bottom: 0; border: 2px solid #937443; border-radius: 3px; background: #c69b60; box-shadow: 0 5px 0 -2px #6b5335; }
+.pond-seat.is-empty .pond-angler-sprite { display: none; }
+.pond-seat.is-empty .pond-empty-stool { display: block; }
+.pond-seat.is-away .pond-angler-sprite, .pond-seat.is-away .pond-rank-crown { display: none; }
+.pond-seat.is-away .pond-empty-stool { display: block; }
+.pond-seat.is-away .pond-seat-badge { opacity: .62; }
+.pond-seat.is-demo-self .pond-seat-badge { outline: 3px solid #6bf1d1; }
+.pond-seat.is-empty .pond-seat-badge { background: transparent; color: #42634a; }
+.pond-seat.is-empty .pond-seat-badge span { display: none; }
+.pond-seat.is-active { z-index: 3; }
+.pond-seat.is-active .pond-angler-sprite { animation: pond-angler-reel .35s ease-in-out infinite alternate; }
+.pond-seat.is-active .pond-seat-badge { outline: 1px solid #ffe58d; }
+.pond-seat.is-champion { z-index: 4; }
+.pond-seat.is-champion .pond-angler-sprite { filter: drop-shadow(0 4px 5px #001b1855); }
+.pond-seat.is-champion .pond-seat-badge { top: 3px; left: -145px; width: 290px; border: 2px solid #ffdf72; border-radius: 12px; padding: 6px 12px; background: #10382af5; box-shadow: 0 0 22px #ffd45a33; }
+.pond-seat.is-champion .pond-seat-badge strong { font-size: 23px; line-height: 28px; color: #ffe58b; }
+.pond-seat.is-champion .pond-seat-badge span { display: block; font-size: 14px; line-height: 19px; color: #e7f7d5; }
+.pond-seat.is-champion .pond-empty-stool { width: 50px; height: 30px; left: -25px; }
+.pond-float { position: absolute; width: 3px; height: 9px; border-radius: 3px; background: linear-gradient(#ff5e46 0 45%,#fff8d1 45% 72%,#ff5e46 72%); transform: translate(-50%,-50%); }
+.pond-float::after { content: ''; position: absolute; left: -4px; top: 6px; width: 10px; height: 4px; border: .7px solid #edfff877; border-radius: 50%; }
+.pond-float.champion-float { width: 7px; height: 21px; }
+.pond-float.champion-float::after { width: 26px; height: 10px; left: -10px; top: 15px; }
+.pond-float.is-active { animation: pond-float-strike .2s ease-in-out infinite alternate; }
+@keyframes pond-angler-reel { to { transform: translateY(-2px) rotate(-7deg); } }
+@keyframes pond-float-strike { to { margin-top: 5px; rotate: 16deg; } }
+@media (prefers-reduced-motion: reduce) { .pond-angler-sprite, .pond-float { animation: none !important; } }
+
+/* Readable labels in the scaled Live/OBS frame. */
+.minimal-top-bar { gap: 16px; }
+.live-pill, .mini-stat-pill { font-size: 22px; line-height: 1.3; font-weight: 800; padding: 10px 16px; }
+.live-pill { min-width: 0; }
+#liveStatusText { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.top-Right-badges { flex-shrink: 0; }
+.bottom-hud-bar { align-items: flex-end; }
+.hud-left-col { min-width: 0; }
+.hud-active-notice { font-size: 22px; line-height: 28px; font-weight: 600; }
+.hud-active-notice > span, .hud-active-notice strong { flex-shrink: 0; }
+.hud-active-notice strong { max-width: 210px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+#activeActionTag { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.hud-gift-card { min-width: 0; min-height: 106px; justify-content: center; gap: 6px; }
+.gift-coin-tag { font-size: 16px; line-height: 20px; }
+.gift-card-body { justify-content: center; text-align: center; }
+.gift-emoji { font-size: 28px; }
+.gift-title { font-size: 20px; line-height: 24px; font-weight: 800; }
+.hud-lb-header { font-family: var(--font-sans, sans-serif); font-size: 20px; line-height: 26px; letter-spacing: 0; }
+.hud-lb-list { max-height: 176px; gap: 4px; }
+.lb-row { font-size: 20px; line-height: 24px; }
+.lb-left { min-width: 0; }
+.lb-rank { width: 24px; flex-shrink: 0; }
+.lb-name { min-width: 0; max-width: 142px; }
+.lb-weight { white-space: nowrap; flex-shrink: 0; }
+
+/* ==========================================================================
+   NỀN ĐỘNG
+   Sương trôi • tia nắng lay • nước chảy • đốm sáng lấp lánh (GPU-friendly)
+   ========================================================================== */
+.ambient-layer { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: hidden; pointer-events: none; z-index: 1; }
+
+.ambient-mist {
+  position: absolute; inset: -8%;
+  background:
+    radial-gradient(42% 22% at 22% 16%, rgba(198, 232, 255, .18), rgba(198, 232, 255, 0) 70%),
+    radial-gradient(38% 20% at 74% 24%, rgba(186, 226, 255, .14), rgba(186, 226, 255, 0) 70%),
+    radial-gradient(50% 24% at 50% 8%,  rgba(210, 240, 255, .11), rgba(210, 240, 255, 0) 70%);
+  filter: blur(7px);
+  animation: ambientMistDrift 44s ease-in-out infinite alternate;
+}
+@keyframes ambientMistDrift {
+  0%   { transform: translate3d(-2.5%, 0, 0) scale(1.06); }
+  100% { transform: translate3d(3.5%, -1.6%, 0) scale(1.15); }
+}
+
+.ambient-rays {
+  position: absolute; left: -12%; top: -8%; width: 124%; height: 72%;
+  background: repeating-linear-gradient(103deg,
+    rgba(255, 246, 200, 0) 0 46px,
+    rgba(255, 246, 200, .06) 46px 64px,
+    rgba(255, 246, 200, 0) 64px 132px);
+  mix-blend-mode: screen; opacity: .45;
+  animation: ambientRaysSway 19s ease-in-out infinite alternate;
+}
+@keyframes ambientRaysSway {
+  0%   { transform: translateX(-2%) skewX(-1.6deg); opacity: .28; }
+  100% { transform: translateX(2.6%) skewX(1.6deg); opacity: .58; }
+}
+
+.ambient-caustics {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 62%;
+  background: radial-gradient(150px 44px at 50% 50%, rgba(180, 245, 255, .11), rgba(180, 245, 255, 0) 70%);
+  background-size: 380px 220px;
+  mix-blend-mode: screen; opacity: .55;
+  animation: ambientCaustics 13s ease-in-out infinite alternate;
+}
+@keyframes ambientCaustics {
+  0%   { background-position: 0 0; opacity: .3; }
+  100% { background-position: 190px -70px; opacity: .68; }
+}
+
+.ambient-glow {
+  position: absolute; left: 50%; bottom: 6%; width: 760px; height: 340px; margin-left: -380px;
+  background: radial-gradient(closest-side, rgba(140, 230, 255, .12), rgba(140, 230, 255, 0) 72%);
+  mix-blend-mode: screen;
+  animation: ambientGlowPulse 8s ease-in-out infinite;
+}
+@keyframes ambientGlowPulse {
+  0%, 100% { opacity: .35; transform: scale(.96); }
+  50%      { opacity: .7;  transform: scale(1.06); }
+}
+
+/* Lớp canvas chuyển động rõ rệt: mây trôi • lá rơi • gợn nước • đom đóm • sóng lan */
+.ambient-motion-canvas {
+  position: absolute; inset: 0; width: 1080px; height: 1920px;
+  pointer-events: none; z-index: 2;
+}
+
+/* Tôn trọng chế độ giảm chuyển động */
+@media (prefers-reduced-motion: reduce) {
+  .fishing-lake-bg { transition: none; }
+  .ambient-mist, .ambient-rays, .ambient-caustics, .ambient-glow { animation: none; }
+}
+
+/* ===== BXH dời lên GÓC PHẢI TRÊN (mobile-safe, không bị TikTok che) ===== */
+.hud-right-leaderboard { position: absolute; top: 100px; right: 20px; width: 320px; z-index: 40; box-shadow: 0 8px 28px rgba(0,0,0,.45); }
+
+.pond-forecast {
+  position: absolute;
+  top: 104px;
+  left: 36px;
+  z-index: 30;
+  max-width: 640px;
+  padding: 15px 22px;
+  color: #fffdf2;
+  background: #112f29;
+  border: 1px solid rgba(227, 247, 203, .34);
+  border-radius: 22px;
+  box-shadow: 0 10px 24px rgba(6, 26, 22, .22);
+  pointer-events: none;
+}
+.pond-current { display: flex; gap: 12px; align-items: center; }
+#pondCurrent { font: 800 36px/1.25 'Noto Serif', serif; color: #fff4d4; }
+#pondCurrentWeather { font-size: 23px; padding: 4px 11px; border-radius: 9px; background: #295549; color: #e4f8de; }
+#pondMapTime { margin-left: auto; font-size: 21px; font-variant-numeric: tabular-nums; white-space: nowrap; color: #fff0bd; }
+.pond-ballot-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  margin: 11px 0 7px;
+  color: #cce7cd;
+  font-size: 25px;
+  font-weight: 700;
+}
+#pondBallotTime { font-variant-numeric: tabular-nums; }
+.pond-options { display: flex; gap: 9px; }
+.pond-options span {
+  padding: 3px 15px 5px;
+  border-radius: 12px;
+  background: #295b4c;
+  font-size: 27px;
+  font-weight: 800;
+}
+.pond-ballot-hint { margin-top: 8px; color: #d8ecdc; font-size: 22px; }
+#topTicker { top: 320px; left: 36px; right: 365px; height: 42px; border-radius: 12px; }
+#topTickerTrack { font-size: 23px; }
+.pond-actions-panel {
+  position: absolute;
+  top: 372px;
+  left: 36px;
+  max-width: 655px;
+  z-index: 30;
+  padding: 11px 18px;
+  border: 1px solid #d3e9ae72;
+  border-radius: 16px;
+  background: #112f29;
+  color: #fff9dc;
+  font-size: 23px;
+  line-height: 1.35;
+  pointer-events: none;
+}
+#pondActionStatus { color: #bde8cd; overflow-wrap: anywhere; }
+.pond-walker { position: absolute; top: 0; left: 0; z-index: 9; pointer-events: none; }
+.pond-walker[hidden] { display: none; }
+.walker-body { position: absolute; width: 96px; height: 94px; bottom: 0; left: -48px; }
+.pond-walker.faces-left .walker-body { scale: -1 1; }
+.walker-portrait {
+  position: absolute; inset: 0 0 auto; height: 66px;
+  background: url('/assets/angler_simple_atlas.png') no-repeat;
+  background-size: 384px 384px;
+}
+.walker-legs { position: absolute; top: 56px; left: 37px; display: flex; gap: 3px; }
+.walker-legs::before, .walker-legs::after {
+  content: ''; width: 13px; height: 35px; background: #37404a;
+  border: 2px solid #252721; border-bottom: 7px solid #fff1d5;
+  border-radius: 4px 4px 7px 7px; transform-origin: center top;
+}
+.is-walking .walker-legs::before { animation: pond-foot .24s ease-in-out infinite alternate; }
+.is-walking .walker-legs::after { animation: pond-foot .24s ease-in-out infinite alternate-reverse; }
+.walker-tool { position: absolute; left: 70px; top: 30px; font-size: 32px; transform-origin: 20% 80%; }
+.is-working .walker-tool { animation: pond-tool .31s ease-in-out infinite alternate; }
+.walker-label {
+  position: absolute; top: 1px; left: 0; transform: translateX(-50%);
+  max-width: 150px; padding: 2px 9px; border-radius: 9px;
+  background: #12382e; color: #fff5cc; font-size: 20px; font-weight: 700;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+@keyframes pond-foot { from { rotate: -23deg; } to { rotate: 25deg; } }
+@keyframes pond-tool { from { rotate: -31deg; } to { rotate: 27deg; } }
+@media (prefers-reduced-motion: reduce) {
+  .pond-walker .walker-legs::before, .pond-walker .walker-legs::after, .pond-walker .walker-tool { animation: none; }
+}
+
+body.pond-demo #quickDock > :not(#demoDock) { display: none; }
+#demoDock:not([hidden]) { display: grid; gap: 14px; }
+#demoDock .dock-input { width: 100%; }
+#demoDock .dock-input:focus-visible { outline: 2px solid #6bf1d1; outline-offset: 2px; }
+#demoDock .dock-btn:disabled { opacity: .55; cursor: default; }
+#demoStatus { min-height: 2.7em; color: #bde8cd; font-size: 13px; line-height: 1.4; }
+@media (max-width: 740px) {
+  body.pond-demo:not(.obs-mode) .app-workspace { flex-direction: column; justify-content: flex-start; gap: 12px; overflow: auto; }
+  body.pond-demo:not(.obs-mode) .stage-wrapper { flex: none; height: 54vh; width: min(100%, 30.375vh); }
+  body.pond-demo .quick-dock { flex: none; width: min(100%, 400px); max-height: 42vh; }
+}

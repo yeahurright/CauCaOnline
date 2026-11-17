@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="vi"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hồ Câu Cá Giải Trí — TikTok Live RPC (9:16 Cần Thủ Online)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;1,400&amp;family=Noto+Serif:wght@700;900&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/live.css?v=16">
+  <link rel="stylesheet" href="/css/pond-scene.css">
+  <link rel="preload" as="image" href="/assets/angler_simple_atlas.png">
+  <link rel="stylesheet" href="/css/tts-controls.css">
+</head>
+<body class="obs-mode">
+  <div class="app-workspace">
+    <!-- ====================================================================
+         KHUNG 9:16 CHUẨN TIKTOK LIVE / OBS BROWSER SOURCE (1080 x 1920)
+         ==================================================================== -->
+    <div class="stage-wrapper" id="stageWrapper">
+      <div class="stage-9x16" id="stage9x16" style="transform: scale(0.251042); box-shadow: rgba(255, 159, 68, 0.6) 0px 0px 48px inset;">
+        <!-- 1. HÌNH NỀN HỒ CÂU SƠN THỦY HỮU TÌNH 9:16 -->
+        <img src="/assets/fishing_pond_hd.png" alt="Hồ Câu Cá Giải Trí" class="fishing-lake-bg">
+        <img src="/assets/pond_bank_decor.png" class="pond-bank-decor" alt="" aria-hidden="true">
+
+        <div class="water-ambient-overlay"></div>
+
+        <!-- 2. THANH TRẠNG THÁI MỎNG TRÊN ĐỈNH -->
+        <header class="minimal-top-bar">
+          <div class="live-pill" id="liveStatusPill">
+            <span class="live-dot" id="liveDot" style="background: rgb(0, 230, 118);"></span>
+            <span id="liveStatusText">@eggvn2007 • 6 NGƯỜI XEM</span>
+          </div>
+          <div class="top-Right-badges">
+            <div class="mini-stat-pill">
+              🐟 <strong id="statCatches">808</strong> cá • ⚖️ <strong id="statWeight">5721.4</strong> kg • 🪱 <strong id="statBait">1790</strong> mồi
+            </div>
+          </div>
+        </header>
+
+        <!-- 3. PHAO CÂU NHẤP NHÔ GIỮA HỒ -->
+        <div class="fishing-bobber-zone" id="fishingBobberZone" title="Bấm để Giật Cần Lên Cá">
+          <div class="bobber-body hooked" id="bobberBody">
+            <div class="bobber-tip"></div>
+            <div class="bobber-float"></div>
+          </div>
+          <div class="bobber-ripples">
+            <div class="bobber-ripple-ring"></div>
+            <div class="bobber-ripple-ring"></div>
+          </div>
+        </div>
+
+        <!-- DÂY CƯỚC CÂU TỪ CẦN CÂU ĐẾN PHAO (SVG) -->
+        <svg class="fishing-line-svg">
+          <path id="fishingLinePath" class="fishing-line-path" d="M 820 1480 Q 680 1300 540 1150"></path>
+        </svg>
+
+        <!-- 4. ĐIỂM TƯƠNG TÁC HAI BÊN HỒ CÂU -->
+        <div class="fishing-hotspot hotspot-bait" id="spotBait" title="Bấm để Thả Thính Dụ Cá">
+          <span class="hotspot-icon">🪱</span>
+          <span class="hotspot-label">Thả Thính</span>
+        </div>
+
+        <div class="fishing-hotspot hotspot-cast" id="spotCast" title="Bấm để Quăng Cần Thả Phao">
+          <span class="hotspot-icon">🎣</span>
+          <span class="hotspot-label">Quăng Cần</span>
+        </div>
+
+        <div class="fishing-hotspot hotspot-horn" id="spotHorn" title="Bấm để Thổi Còi Báo Cá">
+          <span class="hotspot-icon">📯</span>
+          <span class="hotspot-label">Báo Cá (<span id="statHorn">2070</span>)</span>
+        </div>
+
+        <!-- 5. CẦN THỦ TRƯỞNG TRÊN BẾN GỖ (GÓC DƯỚI PHẢI) -->
+        <div class="master-angler-station" id="masterAnglerStation">
+          <div class="angler-wish-bubble" id="anglerWishBubble">
+            “Thả mồi trùn quế, săn chú cá chép vàng 5 ký!”
+          </div>
+          <img src="/assets/angler_master.png" alt="Cần Thủ Trưởng" class="angler-sprite-img reeling" id="anglerSpriteImg">
+          <div class="name-tag">
+            <div class="tag-avatar" id="anglerAvatar">🎣</div>
+            <div class="tag-texts">
+              <div class="tag-name" id="anglerName">Minh Anh</div>
+              <div class="tag-sub" id="anglerAction">🐟 Bắt được Cá Voi Ông Tổ (42.5kg)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. HÀNG 6 GHẾ CÂU VIP (TOP 6 CẦN THỦ BỜ HỒ) -->
+        <div class="vip-stools-layer" id="vipStoolsLayer"><svg viewBox="0 0 1080 1920" class="pond-lines" aria-hidden="true"><path d="M 573.6 1560.2 L 554.6900247318807 1425.016188708266" class="pond-rod champion-line" style=""></path><path d="M 554.6900247318807 1425.016188708266 Q 540 1425.016188708266 540 1320" class="pond-fishing-line champion-line" style=""></path><path d="M 384.4249542718428 1480.0618083115198 L 397.59952234697596 1416.4109579163076" class="pond-rod " style=""></path><path d="M 397.59952234697596 1416.4109579163076 Q 407.88721478931893 1416.4109579163076 407.88721478931893 1366.7075923998702" class="pond-fishing-line " style=""></path><path d="M 293.97720197088086 1403.708481362561 L 321.2429508349155 1344.7035753048153" class="pond-rod " style=""></path><path d="M 321.2429508349155 1344.7035753048153 Q 338.2424455175783 1344.7035753048153 338.2424455175783 1307.915530649172" class="pond-fishing-line " style=""></path><path d="M 222.76943261286414 1307.876350881192 L 264.0524445465945 1257.6696488815637" class="pond-rod " style=""></path><path d="M 264.0524445465945 1257.6696488815637 Q 283.41246311190537 1257.6696488815637 283.41246311190537 1234.1247901785177" class="pond-fishing-line " style=""></path><path d="M 169.18899008234138 1200.0935244141688 L 223.16373554063097 1163.875754566857" class="pond-rod " style=""></path><path d="M 223.16373554063097 1163.875754566857 Q 242.15552236340284 1163.875754566857 242.15552236340284 1151.13201379891" class="pond-fishing-line " style=""></path><path d="M 131.44472285951548 1084.7477210300735 L 194.12222165234994 1067.5276413242698" class="pond-rod " style=""></path><path d="M 194.12222165234994 1067.5276413242698 Q 213.09243660182693 1067.5276413242698 213.09243660182693 1062.3157451931565" class="pond-fishing-line " style=""></path><path d="M 108.67976071839894 967.3568774514627 L 173.59011188773837 970.7695466521085" class="pond-rod " style=""></path><path d="M 173.59011188773837 970.7695466521085 Q 195.5634157531672 970.7695466521085 195.5634157531672 971.9247956376263" class="pond-fishing-line " style=""></path><path d="M 99.33152926464322 849.0394219493419 L 160.54841886558842 870.8910220643378" class="pond-rod " style=""></path><path d="M 160.54841886558842 870.8910220643378 Q 188.36527753377527 870.8910220643378 188.36527753377527 880.8203549009933" class="pond-fishing-line " style=""></path><path d="M 102.85621457234186 729.9597587400168 L 156.83933724891213 766.165041035372" class="pond-rod " style=""></path><path d="M 156.83933724891213 766.165041035372 Q 191.07928522070324 766.165041035372 191.07928522070324 789.1290142298129" class="pond-fishing-line " style=""></path><path d="M 119.15446014223113 613.4745955681826 L 164.71383367190333 659.8356081065624" class="pond-rod " style=""></path><path d="M 164.71383367190333 659.8356081065624 Q 203.62893430951794 659.8356081065624 203.62893430951794 699.4354385875006" class="pond-fishing-line " style=""></path><path d="M 149.7587000352529 496.79029370566786 L 186.5465190993088 550.3781315843347" class="pond-rod " style=""></path><path d="M 186.5465190993088 550.3781315843347 Q 227.19419902714475 550.3781315843347 227.19419902714475 609.5885261533642" class="pond-fishing-line " style=""></path><path d="M 195.84237861812767 384.9533553010243 L 224.08878926531315 443.4951376923264" class="pond-rod " style=""></path><path d="M 224.08878926531315 443.4951376923264 Q 262.6786315359583 443.4951376923264 262.6786315359583 523.4740835817887" class="pond-fishing-line " style=""></path><path d="M 257.8372796067234 283.9301718984972 L 277.9301922327695 345.7466329926271" class="pond-rod " style=""></path><path d="M 277.9301922327695 345.7466329926271 Q 310.414705297177 345.7466329926271 310.414705297177 445.6862323618428" class="pond-fishing-line " style=""></path><path d="M 339.04188550536117 197.11209801549796 L 350.96189673564396 261.0097766295911" class="pond-rod " style=""></path><path d="M 350.96189673564396 261.0097766295911 Q 372.94225183912806 261.0097766295911 372.94225183912806 378.8363154719334" class="pond-fishing-line " style=""></path><path d="M 440.92697992790454 134.87687175851306 L 444.3924963060084 199.78442290807573" class="pond-rod " style=""></path><path d="M 444.3924963060084 199.78442290807573 Q 451.3937745444865 199.78442290807573 451.3937745444865 330.915191254055" class="pond-fishing-line " style=""></path><path d="M 526.1948046337544 112.00818823303484 L 531.1835094890766 176.81646566629553" class="pond-rod " style=""></path><path d="M 531.1835094890766 176.81646566629553 Q 541.6899995679909 176.81646566629553 541.6899995679909 313.3063049394368" class="pond-fishing-line " style=""></path><path d="M 641.195778918743 135.74340494493936 L 637.5654226669571 200.64194509404533" class="pond-rod " style=""></path><path d="M 637.5654226669571 200.64194509404533 Q 630.2407497674321 200.64194509404533 630.2407497674321 331.5824218076033" class="pond-fishing-line " style=""></path><path d="M 742.8873121837266 198.73812151934294 L 730.792597507648 262.6029622136111" class="pond-rod " style=""></path><path d="M 730.792597507648 262.6029622136111 Q 708.5432303814695 262.6029622136111 708.5432303814695 380.088353569894" class="pond-fishing-line " style=""></path><path d="M 823.8226031061831 286.16109628463744 L 803.5397696256643 347.9155023298869" class="pond-rod " style=""></path><path d="M 803.5397696256643 347.9155023298869 Q 770.863404391761 347.9155023298869 770.863404391761 447.4040441391708" class="pond-fishing-line " style=""></path><path d="M 885.5044987711949 387.6456849605241 L 857.0490714409873 446.0861560011931" class="pond-rod " style=""></path><path d="M 857.0490714409873 446.0861560011931 Q 818.3584640538201 446.0861560011931 818.3584640538201 525.5471774196035" class="pond-fishing-line " style=""></path><path d="M 931.2419272490911 499.82518352317527 L 894.2246555675954 553.2547782929125" class="pond-rod " style=""></path><path d="M 894.2246555675954 553.2547782929125 Q 853.5762839818001 553.2547782929125 853.5762839818001 611.925391312845" class="pond-fishing-line " style=""></path><path d="M 961.4851110279404 616.7364909591863 L 915.6828562309746 662.8575648356023" class="pond-rod " style=""></path><path d="M 915.6828562309746 662.8575648356023 Q 876.8635354915141 662.8575648356023 876.8635354915141 701.9470980385735" class="pond-fishing-line " style=""></path><path d="M 977.4230810630045 733.3419188878362 L 923.2078621880146 769.1987179967491" class="pond-rod " style=""></path><path d="M 923.2078621880146 769.1987179967491 Q 889.1357724185134 769.1987179967491 889.1357724185134 791.7332775436339" class="pond-fishing-line " style=""></path><path d="M 980.5796178389533 852.4465079618768 L 919.1950655951896 873.8225867845385" class="pond-rod " style=""></path><path d="M 919.1950655951896 873.8225867845385 Q 891.5663057359941 873.8225867845385 891.5663057359941 883.4438111306451" class="pond-fishing-line " style=""></path><path d="M 970.865742506194 970.6928478074591 L 905.9279930640673 973.536911342541" class="pond-rod " style=""></path><path d="M 905.9279930640673 973.536911342541 Q 884.0866217297694 973.536911342541 884.0866217297694 974.4934928117435" class="pond-fishing-line " style=""></path><path d="M 947.7381556289768 1087.9124784771172 L 885.215967866192 1070.1367636573104" class="pond-rod " style=""></path><path d="M 885.215967866192 1070.1367636573104 Q 866.2783798343121 1070.1367636573104 866.2783798343121 1064.7526084273802" class="pond-fishing-line " style=""></path><path d="M 909.6377582020721 1202.975325565671 L 855.9530634564493 1166.3289949162145" class="pond-rod " style=""></path><path d="M 855.9530634564493 1166.3289949162145 Q 836.9410738155955 1166.3289949162145 836.9410738155955 1153.3510006855668" class="pond-fishing-line " style=""></path><path d="M 855.7247473365926 1310.3571225138955 L 814.7730751746486 1259.8797954537129" class="pond-rod " style=""></path><path d="M 814.7730751746486 1259.8797954537129 Q 795.4280554491763 1259.8797954537129 795.4280554491763 1236.0349843356996" class="pond-fishing-line " style=""></path><path d="M 784.2215558120497 1405.6568363116257 L 757.270884768626 1346.507353386505" class="pond-rod " style=""></path><path d="M 757.270884768626 1346.507353386505 Q 740.3705979752783 1346.507353386505 740.3705979752783 1309.4157639599518" class="pond-fishing-line " style=""></path><path d="M 693.5388175554301 1481.3344135179427 L 680.648703859092 1417.6253484730414" class="pond-rod " style=""></path><path d="M 680.648703859092 1417.6253484730414 Q 670.5448895176812 1417.6253484730414 670.5448895176812 1367.6874984088158" class="pond-fishing-line " style=""></path></svg><div class="pond-seat left is-champion" style="left: 540px; top: 1640px; --sprite-size: 210px;" data-user-id="7371439111758545926" data-seat="1" title="Nhật Minh · TOP 1247 · 0 kg" aria-label="Nhật Minh · TOP 1247 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="0" style="background-position: 0% 0%;"></div><span class="pond-rank-crown is-gold" aria-label="Vương miện vàng — Top 1" style="color: rgb(255, 212, 59); bottom: 198px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>👑 Nhật Minh</strong><span>0 kg · VUA HỒ CÂU</span></div><div class="pond-comment" hidden="" style="bottom: 218px;"></div></div><div class="pond-float champion-float" style="left: 540px; top: 1320px;"></div><div class="pond-seat left" style="left: 368.425px; top: 1518.06px; --sprite-size: 100px;" data-user-id="7626964468816086037" data-seat="2" title="XuânHuynieee · TOP 41 · 22.3 kg" aria-label="XuânHuynieee · TOP 41 · 22.3 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="1" style="background-position: 33.3333% 0%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>XuânHuynieee</strong><span>22.3 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 407.887px; top: 1366.71px;"></div><div class="pond-seat left" style="left: 277.977px; top: 1441.71px; --sprite-size: 100px;" data-user-id="7214863332918002693" data-seat="3" title="Só gay lậm · TOP 1245 · 0 kg" aria-label="Só gay lậm · TOP 1245 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="7" style="background-position: 100% 33.3333%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>Só gay lậm</strong><span>0 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 338.242px; top: 1307.92px;"></div><div class="pond-seat left" style="left: 206.769px; top: 1345.88px; --sprite-size: 100px;" data-user-id="6851637818494764033" data-seat="4" title="Kỳ Nguyễn · TOP 1244 · 0 kg" aria-label="Kỳ Nguyễn · TOP 1244 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="1" style="background-position: 33.3333% 0%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>Kỳ Nguyễn</strong><span>0 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 283.412px; top: 1234.12px;"></div><div class="pond-seat left" style="left: 153.189px; top: 1238.09px; --sprite-size: 100px;" data-user-id="6648859108232151041" data-seat="5" title="Son · TOP 1255 · 0 kg" aria-label="Son · TOP 1255 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="8" style="background-position: 0% 66.6667%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>Son</strong><span>0 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 242.156px; top: 1151.13px;"></div><div class="pond-seat left" style="left: 115.445px; top: 1122.75px; --sprite-size: 100px;" data-user-id="7557015130920829973" data-seat="6" title="Lành Nguyenthi · TOP 1250 · 0 kg" aria-label="Lành Nguyenthi · TOP 1250 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="0" style="background-position: 0% 0%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>Lành Nguyenthi</strong><span>0 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 213.092px; top: 1062.32px;"></div><div class="pond-seat left" style="left: 92.6798px; top: 1005.36px; --sprite-size: 100px;" data-user-id="6973823040212386818" data-seat="7" title="Biopro Diệt kiến Diệt gi · TOP 1257 · 0 kg" aria-label="Biopro Diệt kiến Diệt gi · TOP 1257 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="10" style="background-position: 66.6667% 66.6667%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>Biopro Diệt kiến Diệt gi</strong><span>0 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 195.563px; top: 971.925px;"></div><div class="pond-seat left" style="left: 83.3315px; top: 887.039px; --sprite-size: 100px;" data-user-id="7078078241983251457" data-seat="8" title="xhieuu · TOP 33 · 24.8 kg" aria-label="xhieuu · TOP 33 · 24.8 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="6" style="background-position: 66.6667% 33.3333%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>xhieuu</strong><span>24.8 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 188.365px; top: 880.82px;"></div><div class="pond-seat left" style="left: 86.8562px; top: 767.96px; --sprite-size: 100px;" data-user-id="6567201278215979010" data-seat="9" title="NGA _bình phước · TOP 1258 · 0 kg" aria-label="NGA _bình phước · TOP 1258 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="10" style="background-position: 66.6667% 66.6667%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>NGA _bình phước</strong><span>0 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 191.079px; top: 789.129px;"></div><div class="pond-seat left" style="left: 103.154px; top: 651.475px; --sprite-size: 100px;" data-user-id="7295575676933325842" data-seat="10" title="Cần Thủ Ẩn Danh · TOP 52 · 18.8 kg" aria-label="Cần Thủ Ẩn Danh · TOP 52 · 18.8 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="9" style="background-position: 33.3333% 66.6667%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>Cần Thủ Ẩn Danh</strong><span>18.8 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 203.629px; top: 699.435px;"></div><div class="pond-seat left" style="left: 133.759px; top: 534.79px; --sprite-size: 100px;" data-user-id="7142469791251596294" data-seat="11" title="mimh thươngk16 · TOP 304 · 2 kg" aria-label="mimh thươngk16 · TOP 304 · 2 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="7" style="background-position: 100% 33.3333%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>mimh thươngk16</strong><span>2 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 227.194px; top: 609.589px;"></div><div class="pond-seat left" style="left: 179.842px; top: 422.953px; --sprite-size: 100px;" data-user-id="7641556433393894420" data-seat="12" title="e Chien wibu · TOP 38 · 22.8 kg" aria-label="e Chien wibu · TOP 38 · 22.8 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="15" style="background-position: 100% 100%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>e Chien wibu</strong><span>22.8 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 262.679px; top: 523.474px;"></div><div class="pond-seat left" style="left: 241.837px; top: 321.93px; --sprite-size: 100px;" data-user-id="7080432964513858561" data-seat="13" title="Tập chơi chào mào · TOP 47 · 20.2 kg" aria-label="Tập chơi chào mào · TOP 47 · 20.2 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="11" style="background-position: 100% 66.6667%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>Tập chơi chào mào</strong><span>20.2 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 310.415px; top: 445.686px;"></div><div class="pond-seat left" style="left: 323.042px; top: 235.112px; --sprite-size: 100px;" data-user-id="7614717589080851477" data-seat="14" title="e khiêm kawaii · TOP 49 · 19.5 kg" aria-label="e khiêm kawaii · TOP 49 · 19.5 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="7" style="background-position: 100% 33.3333%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>e khiêm kawaii</strong><span>19.5 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 372.942px; top: 378.836px;"></div><div class="pond-seat left" style="left: 424.927px; top: 172.877px; --sprite-size: 100px;" data-user-id="6784266423068181506" data-seat="15" title="haytichcuclenvingaymai · TOP 1243 · 0 kg" aria-label="haytichcuclenvingaymai · TOP 1243 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="2" style="background-position: 66.6667% 0%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>haytichcuclenvingaymai</strong><span>0 kg</span></div><div class="pond-comment" hidden="" style="bottom: 72.8769px;"></div></div><div class="pond-float " style="left: 451.394px; top: 330.915px;"></div><div class="pond-seat right" style="left: 542.195px; top: 150.008px; --sprite-size: 100px;" data-user-id="7645991047021364232" data-seat="16" title="lvhjz · TOP 1249 · 0 kg" aria-label="lvhjz · TOP 1249 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="7" style="background-position: 100% 33.3333%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>lvhjz</strong><span>0 kg</span></div><div class="pond-comment" hidden="" style="bottom: 50.0082px;"></div></div><div class="pond-float " style="left: 541.69px; top: 313.306px;"></div><div class="pond-seat right" style="left: 657.196px; top: 173.743px; --sprite-size: 100px;" data-user-id="6733754366497260545" data-seat="17" title="Hoàng Giang · TOP 294 · 2.2 kg" aria-label="Hoàng Giang · TOP 294 · 2.2 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="3" style="background-position: 100% 0%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>Hoàng Giang</strong><span>2.2 kg</span></div><div class="pond-comment" hidden="" style="bottom: 73.7434px;"></div></div><div class="pond-float " style="left: 630.241px; top: 331.582px;"></div><div class="pond-seat right" style="left: 758.887px; top: 236.738px; --sprite-size: 100px;" data-user-id="7461497911769302032" data-seat="18" title="toab mai · TOP 12 · 96.7 kg" aria-label="toab mai · TOP 12 · 96.7 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="7" style="background-position: 100% 33.3333%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>toab mai</strong><span>96.7 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 708.543px; top: 380.088px;"></div><div class="pond-seat right" style="left: 839.823px; top: 324.161px; --sprite-size: 100px;" data-user-id="7632293151852807175" data-seat="19" title="Vt.thaii · TOP 1253 · 0 kg" aria-label="Vt.thaii · TOP 1253 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="13" style="background-position: 33.3333% 100%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>Vt.thaii</strong><span>0 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 770.863px; top: 447.404px;"></div><div class="pond-seat right" style="left: 901.504px; top: 425.646px; --sprite-size: 100px;" data-user-id="6557837215211405314" data-seat="20" title="Pham Nhac · TOP 1251 · 0 kg" aria-label="Pham Nhac · TOP 1251 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="15" style="background-position: 100% 100%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>Pham Nhac</strong><span>0 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 818.358px; top: 525.547px;"></div><div class="pond-seat right" style="left: 947.242px; top: 537.825px; --sprite-size: 100px;" data-user-id="6872386997109933058" data-seat="21" title="Nguyễn Xuân Tùng · TOP 48 · 19.9 kg" aria-label="Nguyễn Xuân Tùng · TOP 48 · 19.9 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="11" style="background-position: 100% 66.6667%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>Nguyễn Xuân Tùng</strong><span>19.9 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 853.576px; top: 611.925px;"></div><div class="pond-seat right" style="left: 977.485px; top: 654.736px; --sprite-size: 100px;" data-user-id="6558957012188446721" data-seat="22" title="Bao Duy · TOP 92 · 11.4 kg" aria-label="Bao Duy · TOP 92 · 11.4 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="1" style="background-position: 33.3333% 0%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>Bao Duy</strong><span>11.4 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 876.864px; top: 701.947px;"></div><div class="pond-seat right" style="left: 993.423px; top: 771.342px; --sprite-size: 100px;" data-user-id="7701736432180462613" data-seat="23" title="Đức Khuê · TOP 1248 · 0 kg" aria-label="Đức Khuê · TOP 1248 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="12" style="background-position: 0% 100%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>Đức Khuê</strong><span>0 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 889.136px; top: 791.733px;"></div><div class="pond-seat right" style="left: 996.58px; top: 890.447px; --sprite-size: 100px;" data-user-id="7547568193545716744" data-seat="24" title="phong 8 8 · TOP 51 · 18.9 kg" aria-label="phong 8 8 · TOP 51 · 18.9 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="9" style="background-position: 33.3333% 66.6667%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>phong 8 8</strong><span>18.9 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 891.566px; top: 883.444px;"></div><div class="pond-seat right" style="left: 986.866px; top: 1008.69px; --sprite-size: 100px;" data-user-id="6579152031327961090" data-seat="25" title="T.Văn · TOP 37 · 23.1 kg" aria-label="T.Văn · TOP 37 · 23.1 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="7" style="background-position: 100% 33.3333%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>T.Văn</strong><span>23.1 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 884.087px; top: 974.493px;"></div><div class="pond-seat right" style="left: 963.738px; top: 1125.91px; --sprite-size: 100px;" data-user-id="6582142988997623809" data-seat="26" title="gill · TOP 1254 · 0 kg" aria-label="gill · TOP 1254 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="4" style="background-position: 0% 33.3333%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>gill</strong><span>0 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 866.278px; top: 1064.75px;"></div><div class="pond-seat right" style="left: 925.638px; top: 1240.98px; --sprite-size: 100px;" data-user-id="7654190194043831312" data-seat="27" title="Hải Bé · TOP 1252 · 0 kg" aria-label="Hải Bé · TOP 1252 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="0" style="background-position: 0% 0%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>Hải Bé</strong><span>0 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 836.941px; top: 1153.35px;"></div><div class="pond-seat right" style="left: 871.725px; top: 1348.36px; --sprite-size: 100px;" data-user-id="7663032383328093204" data-seat="28" title="- 5 000 000vnd · TOP 1256 · 0 kg" aria-label="- 5 000 000vnd · TOP 1256 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="2" style="background-position: 66.6667% 0%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>- 5 000 000vnd</strong><span>0 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 795.428px; top: 1236.03px;"></div><div class="pond-seat right" style="left: 800.222px; top: 1443.66px; --sprite-size: 100px;" data-user-id="6930448484983620610" data-seat="29" title="Nguỹn Minh · TOP 365 · 0.5 kg" aria-label="Nguỹn Minh · TOP 365 · 0.5 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="12" style="background-position: 0% 100%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>Nguỹn Minh</strong><span>0.5 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 740.371px; top: 1309.42px;"></div><div class="pond-seat right" style="left: 709.539px; top: 1519.33px; --sprite-size: 100px;" data-user-id="7279725731546399750" data-seat="30" title="cập nhật giá vàng mỗi ng · TOP 1246 · 0 kg" aria-label="cập nhật giá vàng mỗi ng · TOP 1246 · 0 kg"><span class="pond-empty-stool"></span><div class="pond-angler-sprite" role="img" aria-label="Người câu ngồi bên bờ hồ" data-skin="12" style="background-position: 0% 100%;"></div><span class="pond-rank-crown" hidden="" aria-label="Vương miện đồng — Top 3" style="color: rgb(206, 148, 88); bottom: 88px;"><svg viewBox="0 0 64 44" aria-hidden="true"><path d="M6 12 20 23 32 4 44 23 58 12 52 37H12Z" fill="currentColor" stroke="#fff5cf" stroke-width="2"></path><path d="M13 39h38" stroke="currentColor" stroke-width="5"></path><circle cx="6" cy="10" r="4" fill="currentColor"></circle><circle cx="32" cy="4" r="4" fill="currentColor"></circle><circle cx="58" cy="10" r="4" fill="currentColor"></circle></svg></span><div class="pond-seat-badge"><span class="pond-bot-icon" aria-label="Người câu giả lập" hidden="">🤖</span><strong>cập nhật giá vàng mỗi ng</strong><span>0 kg</span></div><div class="pond-comment" hidden="" style="bottom: 108px;"></div></div><div class="pond-float " style="left: 670.545px; top: 1367.69px;"></div></div>
+
+        <!-- 7. LỚP CANVAS HIỆU ỨNG BONG BÓNG, SÓNG NƯỚC, GIỌT NƯỚC BẮN & BÓNG CÁ -->
+        <canvas id="fishingCanvas" width="1080" height="1920"></canvas>
+
+        <!-- 8. THANH HUD GỌN GÀNG DƯỚI ĐÁY -->
+        <footer class="bottom-hud-bar">
+          <div class="hud-left-col">
+            <div class="hud-active-notice" id="hudActiveNotice">
+              <span>🐟</span>
+              <strong id="activeAnglerName">Minh Anh</strong>
+              <span>—</span>
+              <span id="activeActionTag">Vừa giật được Cá Voi Ông Tổ 42.5kg</span>
+              <span>🎣</span>
+            </div>
+
+            <div class="hud-gift-cards">
+              <div class="hud-gift-card" id="cardBait" title="Bình luận để tham gia hồ câu">
+                <div class="gift-coin-tag">BÌNH LUẬN</div>
+                <div class="gift-card-body">
+                  <span class="gift-emoji">🪱</span>
+                  <span class="gift-title">Giao lưu hồ câu</span>
+                </div>
+              </div>
+
+              <div class="hud-gift-card" id="cardCast" title="Thả tim để cổ vũ">
+                <div class="gift-coin-tag">THẢ TIM</div>
+                <div class="gift-card-body">
+                  <span class="gift-emoji">🎣</span>
+                  <span class="gift-title">Cổ vũ cần thủ</span>
+                </div>
+              </div>
+
+              <div class="hud-gift-card" id="cardGourmet" title="Theo dõi / tặng quà để ủng hộ hồ câu">
+                <div class="gift-coin-tag">FOLLOW / QUÀ</div>
+                <div class="gift-card-body">
+                  <span class="gift-emoji">🦐</span>
+                  <span class="gift-title">Ủng hộ hồ câu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bên phải: Bảng VUA SÁT CÁ (Top Cần Thủ) -->
+          <div class="hud-right-leaderboard">
+            <div class="hud-lb-header" id="lbHeader">👑 VUA SÁT CÁ BỜ HỒ</div><div class="leaderboard-countdown" style="color:#fff3a4;font-size:19px;font-weight:700">Reset sau 00:57:10</div>
+            <div class="hud-lb-list" id="leaderboardList"><div class="lb-row">
+        <div class="lb-left">
+          <span class="lb-rank">🥇</span>
+          <span class="lb-name" title="Hải Nguyễn">Hải Nguyễn</span>
+        </div>
+        <div class="lb-right">
+          <span class="lb-weight">560.5kg</span>
+          <span class="lb-count">45 cá</span>
+        </div>
+      </div><div class="lb-row">
+        <div class="lb-left">
+          <span class="lb-rank">🥈</span>
+          <span class="lb-name" title="TháiSơn08">TháiSơn08</span>
+        </div>
+        <div class="lb-right">
+          <span class="lb-weight">548.8kg</span>
+          <span class="lb-count">51 cá</span>
+        </div>
+      </div><div class="lb-row">
+        <div class="lb-left">
+          <span class="lb-rank">🥉</span>
+          <span class="lb-name" title=".">.</span>
+        </div>
+        <div class="lb-right">
+          <span class="lb-weight">354.2kg</span>
+          <span class="lb-count">35 cá</span>
+        </div>
+      </div><div class="lb-row">
+        <div class="lb-left">
+          <span class="lb-rank">4.</span>
+          <span class="lb-name" title="Hắt.Tê">Hắt.Tê</span>
+        </div>
+        <div class="lb-right">
+          <span class="lb-weight">137.2kg</span>
+          <span class="lb-count">3 cá</span>
+        </div>
+      </div><div class="lb-row">
+        <div class="lb-left">
+          <span class="lb-rank">5.</span>
+          <span class="lb-name" title="ThanhTinh">ThanhTinh</span>
+        </div>
+        <div class="lb-right">
+          <span class="lb-weight">117.6kg</span>
+          <span class="lb-count">6 cá</span>
+        </div>
+      </div><div class="lb-row">
+        <div class="lb-left">
+          <span class="lb-rank">6.</span>
+          <span class="lb-name" title="Con Báo Đời">Con Báo Đời</span>
+        </div>
+        <div class="lb-right">
+          <span class="lb-weight">106.9kg</span>
+          <span class="lb-count">9 cá</span>
+        </div>
+      </div></div>
+          </div>
+        </footer>
+
+        <!-- BANNER ĐẠI CHIẾN THỦY QUÁI -->
+        <div class="leviathan-banner" id="leviathanBanner">
+          <div class="leviathan-title" id="leviathanTitle">🐉 ĐẠI CHIẾN THỦY QUÁI HỒ SÂU 🐉</div>
+          <div class="leviathan-sub" id="leviathanSub">Cần thủ giật được Cá Rồng Kim Long Khổng Lồ!</div>
+        </div>
+
+        <!-- MODAL CHIẾN TÍCH BẮT CÁ -->
+        <div class="catch-modal-overlay" id="catchModal">
+          <div class="catch-card">
+            <div class="catch-badge" id="catchBadge" style="background: rgb(251, 192, 45);">Huyền Thoại</div>
+            <div class="catch-icon has-art" id="catchIcon" data-fish-id="ca_voi" role="img" aria-label="Cá Voi Ông Tổ" style="background-image: url(&quot;/assets/new_fish/ca_voi.png&quot;); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>
+            <div class="catch-fish-name" id="catchFishName">Cá Chép Vàng Cát Tường</div>
+            <div class="catch-weight-pill" id="catchWeight">4.8 kg</div>
+            <div class="catch-winner">
+              <div class="catch-avatar-ring">
+                <img id="catchAnglerAvatar" class="catch-angler-avatar" alt="Ảnh đại diện người câu" hidden="">
+                <span id="catchAvatarFallback" class="catch-avatar-fallback">🎣</span>
+              </div>
+              <div class="catch-winner-details">
+                <span class="catch-winner-label">CẦN THỦ VỪA BẮT ĐƯỢC</span>
+                <div class="catch-angler-name" id="catchAnglerName">Hải Đăng</div>
+              </div>
+            </div>
+            <div class="catch-quote" id="catchQuote">“Chép vàng vượt vũ môn hóa rồng, rước đại cát đại lợi về nhà!”</div>
+          </div>
+        </div>
+        <!-- HƯỚNG DẪN GHIM CHO NGƯỜI XEM MỚI -->
+        <div class="pinned-guide" id="pinnedGuide" style="position:absolute;left:0;right:0;top:38%;z-index:30;display:flex;justify-content:center;pointer-events:none;">
+          <div class="guide-card">
+            <div class="guide-row"><span class="guide-ico">👀</span><span>Ai đang xem đều có thể được chọn</span></div>
+            <div class="guide-row"><span class="guide-ico">🏆</span><span>Ai nhiều kg nhất lên bảng vàng</span></div>
+            <div class="guide-row"><span class="guide-ico">❤️</span><span>Tim để cổ vũ</span></div>
+          </div>
+        </div>
+        <!-- DÒNG CHẠY CHỮ: VUA SÁT CÁ -->
+        <div id="topTicker">
+          <div id="topTickerTrack" data-text="🥇 Hải Nguyễn 560.5kg · 45 cá        🥈 TháiSơn08 548.8kg · 51 cá        🥉 . 354.2kg · 35 cá        •        " style=""><span>🥇 Hải Nguyễn 560.5kg · 45 cá        🥈 TháiSơn08 548.8kg · 51 cá        🥉 . 354.2kg · 35 cá        •        </span><span>🥇 Hải Nguyễn 560.5kg · 45 cá        🥈 TháiSơn08 548.8kg · 51 cá        🥉 . 354.2kg · 35 cá        •        </span></div>
+        </div>
+        <!-- DẢI SUÝT TRÚNG: nhiều người cùng được gọi tên -->
+        <div id="nearMissBar"><span id="nearMissText"></span></div>
+        <!-- BẢNG CÁ ĐỒNG THỜI (thu nhỏ) -->
+        <div id="multiCatchGrid"></div>
+        <!-- THẺ CÁ NHÂN: ai cũng thấy cá & cân nặng của mình -->
+        <div id="personalCards"></div>
+        <!-- HÀNG CHỜ GHẾ -->
+        <div id="waitingBar" style="position: absolute; left: 0px; right: 0px; top: 14%; z-index: 30; display: flex; justify-content: center; pointer-events: none;">
+          <div style="background:rgba(8,16,26,.70);border:2px solid rgba(96,165,250,.65);border-radius:14px;padding:10px 18px;font:700 24px/1.25 'Be Vietnam Pro',system-ui,sans-serif;color:#dbeafe;max-width:780px;">
+            ⏳ HÀNG CHỜ GHẾ: <span id="waitingNames">31 người — Rizq · buồn · CR7 …</span>
+          </div>
+        </div>
+      <div id="bigFishFlash" class="on" style="--bf-color: rgba(255, 159, 68, 0.78); --bf-spread: 64%; --bf-dur: 1.45s; --bf-peak: 0.71;"></div><div id="bigFishRing" class="bigfish-ring on" style="--bf-size: 246px; --bf-border: 8.5px; --bf-ring: rgba(255, 159, 68, 0.95); --bf-grow: 3.66; --bf-dur: 1.45s;"></div></div>
+    </div>
+
+    <!-- ====================================================================
+         BẢNG ĐIỀU KHIỂN NHANH RPC & GIẢ LẬP TRỰC TIẾP (ẨN KHI ?obs=1)
+         ==================================================================== -->
+    <aside class="quick-dock" id="quickDock">
+      <div class="dock-header">
+        <div class="dock-title">🎣 Điều Khiển Hồ Câu Cá</div>
+        <a href="/admin" target="_blank" class="dock-link">Mở Admin RPC ↗</a>
+      </div>
+
+      <div class="dock-section">
+        <div class="dock-section-title">🌐 Link HTTPS Cho TikTok Live Studio (Không Lỗi URL)</div>
+        <div class="dock-input-row">
+          <input type="text" id="inputPublicTunnelUrl" class="dock-input" readonly="" value="Tunnel đang tắt — dùng địa chỉ local">
+          <button class="dock-btn gold" id="btnCopyTunnelUrl">📋 Copy</button>
+          <button class="dock-btn" id="btnRefreshTunnelUrl" title="Tạo lại link HTTPS mới">🔄</button>
+        </div>
+      </div>
+
+      <div class="dock-section">
+        <div class="dock-section-title">🔊 Âm Thanh Hồ Câu &amp; Giọng Đọc</div>
+        <link rel="stylesheet" href="/css/tts-controls.css">
+        <div id="speechControls" class="speech-panel">
+    <div class="speech-test"><input id="speechTestText" type="text" aria-label="Nội dung đọc thử" value="Mời bạn ghé hồ câu! Chúc bạn câu được cá lớn." maxlength="160"><button id="speechTestButton" type="button">▶ Đọc thử</button></div>
+    <label for="ttsVoiceSelect">🎙 Chọn giọng đọc</label>
+    <select id="ttsVoiceSelect"><option value="default">Mặc định (Hải Đăng)</option><option value="Adam bựa">Adam bựa</option><option value="Trúc Ly">Trúc Ly</option><option value="Thiện Minh">Thiện Minh</option><option value="Mai Anh">Mai Anh</option><option value="Hải Đăng">Hải Đăng</option><option value="Thùy Dung">Thùy Dung</option><option value="Thiền Tâm Đức">Thiền Tâm Đức</option><option value="Ngọc Huyền">Ngọc Huyền</option><option value="Quang Sơn">Quang Sơn</option><option value="Ngọc Trân">Ngọc Trân</option><option value="Minh Đức">Minh Đức</option><option value="Phạm Tuyên">Phạm Tuyên</option><option value="Thái Sơn">Thái Sơn</option><option value="Xuân Vĩnh">Xuân Vĩnh</option><option value="Thanh Bình">Thanh Bình</option><option value="Ngọc Linh">Ngọc Linh</option><option value="Đoan Trang">Đoan Trang</option><option value="Thục Đoan">Thục Đoan</option><option value="Minh Triết">Minh Triết</option><option value="Mỹ Duyên">Mỹ Duyên</option><option value="Quỳnh Anh">Quỳnh Anh</option><option value="Đức Trí">Đức Trí</option><option value="Kim Thanh">Kim Thanh</option><option value="Adam">Adam</option><option value="Quốc Tuấn">Quốc Tuấn</option></select>
+    <span id="ttsVoiceStatus" class="speech-status" role="status" aria-live="polite">Đang dùng: Adam bựa. Lựa chọn được lưu tự động.</span>
+    <div class="speech-speed-label"><label for="ttsSpeed">Tốc độ giọng đọc</label><output id="ttsSpeedValue" for="ttsSpeed">0.95×</output></div>
+    <input id="ttsSpeed" type="range" min="0.5" max="2" step="0.05" value="1">
+    <div class="speech-range-labels"><span>Chậm · 0.5×</span><span>Nhanh · 2×</span></div>
+    <audio id="speechPreview" controls="" preload="none" aria-label="Nghe thử giọng đọc"></audio></div>
+        <script src="/js/tts-voices.js" defer=""></script>
+        <button class="dock-btn gold" id="btnUnlockAudio">
+          🔔 Bật Âm Thanh Hồ &amp; Giọng Đọc AI
+        </button>
+        <div class="dock-grid-2">
+          <button class="dock-btn active-toggle" id="btnToggleTts">🎙️ Giọng Đọc: BẬT</button>
+          <button class="dock-btn active-toggle" id="btnToggleMusic">🎵 Nhạc Nền: BẬT</button>
+        </div>
+        <div class="volume-control-row">
+          <div class="volume-label-line">
+            <span>🎵 Âm lượng Nhạc nền</span>
+            <strong id="valMusicVol">30%</strong>
+          </div>
+          <input type="range" id="sliderMusicVol" class="volume-slider" min="0" max="100" value="55">
+        </div>
+        <div class="volume-control-row">
+          <div class="volume-label-line">
+            <span>🎙️ Âm lượng Giọng đọc</span>
+            <strong id="valTtsVol">93%</strong>
+          </div>
+          <input type="range" id="sliderTtsVol" class="volume-slider" min="0" max="100" value="95">
+        </div>
+      </div>
+
+      <div class="dock-section">
+        <div class="dock-section-title">📡 Kết Nối Phòng TikTok Live</div>
+        <div class="dock-input-row">
+          <input type="text" id="inputTikTokUser" class="dock-input" value="@eggvn2007" placeholder="Nhập @username TikTok (Enter là vào)" autocomplete="off">
+          <button class="dock-btn gold" id="btnConnectTikTok">Kết Nối</button>
+        </div>
+        <button class="dock-btn gold" id="btnFillSimulatedSeats">🎲 Tạo người câu ngẫu nhiên</button>
+        <label for="simulatedCount">Số người tạo (1–30)</label>
+        <input class="dock-input" id="simulatedCount" type="number" min="1" max="30" step="1" value="5"><small role="status"></small>
+        <button class="dock-btn" id="btnResetFishing" style="background:#7d2525;color:#fff">Reset — Xóa hết</button><div style="margin: 12px 0px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 13px;"><label for="leaderboardResetMinutes">Tự reset bảng xếp hạng (phút)</label><input id="leaderboardResetMinutes" type="number" min="1" max="1440" step="1" value="60" style="width:80px;padding:8px"><button id="saveLeaderboardReset" type="button" class="dock-btn">Lưu thời gian reset</button><strong class="leaderboard-countdown">Reset sau 00:57:10</strong><span id="leaderboardResetStatus" role="status"></span></div><div style="margin: 12px 0px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 13px;"><label for="catchRoundDelaySeconds">Thời gian mỗi lần câu được cá (giây)</label><input id="catchRoundDelaySeconds" type="number" min="1" max="60" step="1" value="15" style="width:75px;padding:8px"><button type="button" id="saveRoundDelay" class="dock-btn">Lưu thời gian</button><span id="roundDelayStatus" role="status"></span></div>
+        <div class="sim-voice-controls">
+          <label for="simCatchVoice">🎙 Chúc mừng người giả lập</label>
+          <select id="simCatchVoice">
+            <option value="large">Chỉ cá to (từ 5 kg)</option>
+            <option value="off">Không chúc mừng</option>
+            <option value="all" selected="">Chúc mừng tất cả</option>
+          </select>
+          <small id="simCatchVoiceStatus" role="status">Chỉ chúc mừng người giả lập khi cá từ 5 kg trở lên.</small>
+        </div>
+        <div id="seatingStatus" role="status" style="font-size:12px;color:#b6e6c8;line-height:1.5">Ghế: 30/30 · Người thật: 30 · Giả lập: 0 · Đang chờ ghế: 31</div>
+        <button class="dock-btn" id="btnToggleAutoSim">🤖 Tự động Giả lập: TẮT</button>
+      </div>
+
+      <div class="dock-section">
+        <div class="dock-section-title">🎣 Kích Hoạt Hành Động Câu Cá (RPC)</div>
+        <input type="text" id="inputAnglerName" class="dock-input" value="Cần thủ ẩn danh" placeholder="Tên cần thủ...">
+        <select id="rpcSimulatedAngler" class="dock-input" aria-label="Chọn giả lập đang ngồi" data-roster="[]"><option value="">Tạo / dùng tên nhập bên trên</option></select>
+        <input type="text" id="inputAnglerWish" class="dock-input" value="Săn con cá chép giòn 5 ký làm tiệc!" placeholder="Lời chúc / mong ước...">
+        <div id="fishingRoundStatus" role="status" style="font-size:12px;color:#b6e6c8;line-height:1.5">Xét cá sau thời gian chờ đã cài đặt. Đang chờ lượt tiếp theo…</div>
+
+        <div class="dock-grid-2">
+          <button class="dock-btn gold" id="btnRpcHook">🐟 Giật Cần Lên Cá</button>
+          <button class="dock-btn" id="btnRpcCast">🎣 Quăng Cần Thả Phao</button>
+          <button class="dock-btn" id="btnRpcBait">🪱 Thả Thính (+5)</button>
+          <button class="dock-btn" id="btnRpcHorn">📯 Thổi Còi Báo Cá</button>
+          <button class="dock-btn" id="btnRpcBigFish">🦐 Mồi Thượng Hạng</button>
+          <button class="dock-btn gold" id="btnRpcLeviathan">🐉 Săn Thủy Quái (Quà Lớn)</button>
+        </div>
+      </div>
+
+      <div class="dock-section">
+        <div class="dock-section-title">📜 Nhật Ký Hồ Câu Cá Gần Nhất</div>
+        <div class="event-feed" id="eventFeed"><div class="feed-item"><strong>[13:14:29] Minh Anh</strong>: Giật được Cá Voi Ông Tổ (42.5kg)</div></div>
+      </div>
+    </aside>
+  </div>
+
+  <script src="/js/audio.js?v=13"></script>
+  <script src="/js/particles.js"></script>
+  <script src="/js/pond-scene.js"></script>
+  <script src="/js/catch-reward.js?v=9"></script>
+  <script src="/js/live.js?v=40"></script>
+  <script src="/js/simulation-controls.js"></script>
+  <script src="/js/reset-fishing.js"></script>
+  <script src="/js/round-delay-controls.js"></script>
+  <script src="/js/simulated-roster-controls.js"></script>
+  <script src="/js/leaderboard-reset-controls.js"></script>
+  <!-- BUILD:2026-11-08-s -->
+  <script>
+    // Tự tải lại khi giao diện được cập nhật (đổi mã BUILD bên trên)
+    (function () {
+      var current = '2026-11-08-s';
+      setInterval(function () {
+        fetch('/', { cache: 'no-store' })
+          .then(function (r) { return r.text(); })
+          .then(function (html) {
+            var m = html.match(/BUILD:([a-z0-9\-]+)/i);
+            if (m && m[1] !== current) location.reload();
+          })
+          .catch(function () {});
+      }, 15000);
+    })();
+  </script>
+
+
+</body></html>

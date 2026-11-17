@@ -1,0 +1,37 @@
+const assert = require('node:assert/strict');
+const test = require('node:test');
+const { PondScenePoll } = require('./pond-scene-poll');
+
+test('map votes and map changes preserve the pending and active anomaly', () => {
+  let time = 0;
+  const poll = new PondScenePoll({ now: () => time, random: () => .95 });
+  time = 2000;
+  poll.startMapBallot();
+  time = 32000;
+  poll.update();
+  assert.equal(poll.dueAnomaly(), null);
+  time = 45000;
+  assert.equal(poll.dueAnomaly().id, 'eclipse');
+  time = 51000;
+  poll.selectAnomaly(poll.dueAnomaly().id);
+  const original = poll.activeAnomaly();
+  time = 60000;
+  poll.selectMap(poll.scene.scenery === 'bay' ? 'still' : 'bay');
+  poll.selectWeather('rain');
+  poll.update();
+  assert.equal(poll.activeAnomaly(), original);
+  assert.equal(poll.snapshot(true).anomaly.endsAt, 81000);
+  time = 81000;
+  poll.update();
+  assert.equal(poll.activeAnomaly(), null);
+  time = 171000;
+  assert.equal(poll.dueAnomaly().id, 'blood-moon');
+  poll.selectAnomaly('blood-moon');
+  time = 291000;
+  poll.update();
+  assert.equal(poll.dueAnomaly().id, 'aurora');
+  poll.selectAnomaly('aurora');
+  time = 411000;
+  poll.update();
+  assert.equal(poll.dueAnomaly().id, 'eclipse');
+});

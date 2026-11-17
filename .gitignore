@@ -1,0 +1,37 @@
+# Backups and temporary archives
+backup-*/
+*.bak
+*.bak-*
+*.zip
+*.rar
+*.tar.gz
+
+# Node dependencies
+**/node_modules/
+
+# Runtime and precompiled binaries
+**/runtime/
+**/tts/
+**/_tcl_data/
+**/_tk_data/
+**/tcl8/
+*.exe
+*.dll
+*.pyd
+*.bin
+
+# Browser profiles and cached sessions
+**/tiktok-roster-profile/
+**/data-live-ready-*/
+**/Crashpad/
+
+# Caches and runtime sensitive data
+**/data/tts-cache/
+**/data/admin-pin.txt
+**/output/
+**/tmp/
+**/.workbuddy-ai/
+
+# Logs
+*.log
+reconnect.log
